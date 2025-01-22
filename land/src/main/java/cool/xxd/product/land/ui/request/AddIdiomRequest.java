@@ -33,5 +33,5 @@ public class AddIdiomRequest {
     // 例句
     private List<String> exampleSentences;
 
-    private Long questionId;
+    private List<Long> questionIds;
 }

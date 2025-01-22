@@ -40,22 +40,16 @@ public class IdiomDomainServiceImpl implements IdiomDomainService {
                     var idiom = idiomFactory.create(command);
                     idiomRepository.save(idiom);
                 });
-        if (command.getQuestionId() != null) {
-            addQuestionRelation(command.getWord(), command.getQuestionId());
-        }
-    }
-
-    @Override
-    public void addQuestionRelation(String word, Long questionId) {
-        var idiomQuestionRelationOptional = idiomQuestionRelationRepository.findByIdiomAndQuestionId(word, questionId);
-        if (idiomQuestionRelationOptional.isEmpty()) {
-            var idiomQuestionRelation = idiomQuestionRelationFactory.create(word, questionId);
-            idiomQuestionRelationRepository.save(idiomQuestionRelation);
+        if (command.getQuestionIds() != null) {
+            addQuestionRelations(command.getWord(), command.getQuestionIds());
         }
     }
 
     @Override
     public void addQuestionRelations(String word, List<Long> questionIds) {
+        if (questionIds == null || questionIds.isEmpty()) {
+            return;
+        }
         var idiomQuestionRelations = idiomQuestionRelationRepository.findByIdiom(word);
         var existQuestionIdSet = idiomQuestionRelations.stream().map(IdiomQuestionRelation::getQuestionId).collect(Collectors.toSet());
         var difference = new HashSet<>(questionIds);
@@ -70,10 +64,5 @@ public class IdiomDomainServiceImpl implements IdiomDomainService {
     @Override
     public void crawl(IdiomCrawlItem item) {
         X.cache.add(Constants.CRAWLER_REDIS_KEY, item);
-    }
-
-    @Override
-    public void crawl(List<IdiomCrawlItem> items) {
-        X.cache.addAll(Constants.CRAWLER_REDIS_KEY, items);
     }
 }

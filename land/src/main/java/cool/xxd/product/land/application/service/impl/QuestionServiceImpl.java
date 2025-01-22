@@ -93,13 +93,10 @@ public class QuestionServiceImpl implements QuestionService {
             // 其余的去加入爬取任务
             else {
                 log.info("爬取的成语-{}", word);
-                var items = idiomIndexMap.get(word).stream().map(questionId -> {
-                    var idiomCrawlItem = new IdiomCrawlItem();
-                    idiomCrawlItem.setWord(word);
-                    idiomCrawlItem.setQuestionId(questionId);
-                    return idiomCrawlItem;
-                }).toList();
-                idiomDomainService.crawl(items);
+                var idiomCrawlItem = new IdiomCrawlItem();
+                idiomCrawlItem.setWord(word);
+                idiomCrawlItem.setQuestionIds(idiomIndexMap.get(word));
+                idiomDomainService.crawl(idiomCrawlItem);
             }
         }
         questionDomainService.finishIndex(needIndexQuestions);

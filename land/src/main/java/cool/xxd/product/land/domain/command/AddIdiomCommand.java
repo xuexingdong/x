@@ -34,5 +34,5 @@ public class AddIdiomCommand implements Command {
     // 例句
     private List<String> exampleSentences;
 
-    private Long questionId;
+    private List<Long> questionIds;
 }
