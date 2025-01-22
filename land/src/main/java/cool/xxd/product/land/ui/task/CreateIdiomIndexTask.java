@@ -13,7 +13,7 @@ public class CreateIdiomIndexTask {
 
     private final QuestionService questionService;
 
-    @Scheduled(fixedRate = 60 * 1000)
+    @Scheduled(fixedDelay = 10 * 1000)
     public void queryDepositOrderStatus() {
         questionService.indexIdioms();
     }
