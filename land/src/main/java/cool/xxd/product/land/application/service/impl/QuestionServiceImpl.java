@@ -63,7 +63,6 @@ public class QuestionServiceImpl implements QuestionService {
                 .collect(Collectors.partitioningBy(question -> question.getModule() == XingceModule.YANYU));
         // 从分组中获取需要索引和不需要索引的题目
         var noNeedIndexQuestions = questionMap.get(false);
-        log.info("不需要索引的题目-{}", noNeedIndexQuestions);
         questionDomainService.finishIndex(noNeedIndexQuestions);
 
         var needIndexQuestions = questionMap.get(true);
