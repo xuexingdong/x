@@ -50,7 +50,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void indexIdioms() {
-        var pageRequest = PageRequest.of(1, 50);
+        var pageRequest = PageRequest.of(1, 500);
         var questionQuery = new QuestionQuery();
         questionQuery.setIndexStatus(IndexStatus.UN_INDEXED);
         var questions = questionRepository.queryQuestions(questionQuery, pageRequest).getData();
