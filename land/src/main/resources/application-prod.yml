@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    hikari:
+      validation-timeout: 60000
+      connection-test-query: select 1
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/hckj
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456789
+  data:
+    redis:
+      database: 0
+      host: localhost
+      port: 6379
+leaf:
+  name: land
+  segment:
+    enable: true
+    url: jdbc:mysql://localhost:3306/x
+    username: root
+    password: 123456789
