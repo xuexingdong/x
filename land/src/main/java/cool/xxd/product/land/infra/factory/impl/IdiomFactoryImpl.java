@@ -23,6 +23,8 @@ public class IdiomFactoryImpl implements IdiomFactory {
         idiom.setWord(addIdiomCommand.getWord());
         idiom.setPinyin(addIdiomCommand.getPinyin());
         idiom.setEmotion(addIdiomCommand.getEmotion());
+        idiom.setSynonyms(addIdiomCommand.getSynonyms());
+        idiom.setAntonyms(addIdiomCommand.getAntonyms());
         idiom.setMeaning(addIdiomCommand.getMeaning());
         idiom.setOrigin(addIdiomCommand.getOrigin());
         idiom.setUsage(addIdiomCommand.getUsage());

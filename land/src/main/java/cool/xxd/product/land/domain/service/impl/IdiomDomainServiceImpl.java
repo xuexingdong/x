@@ -63,6 +63,6 @@ public class IdiomDomainServiceImpl implements IdiomDomainService {
 
     @Override
     public void crawl(IdiomCrawlItem item) {
-        X.cache.add(Constants.CRAWLER_REDIS_KEY, item);
+        X.cache.addFirst(Constants.CRAWLER_REDIS_KEY, item);
     }
 }

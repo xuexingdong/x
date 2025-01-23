@@ -17,6 +17,8 @@ public interface CacheUtil {
 
     <T> void add(String key, T value);
 
+    <T> void addFirst(String key, T value);
+
     <T> void addAll(String key, List<T> value);
 
     <T> Optional<T> load(String key, Class<T> clazz);
