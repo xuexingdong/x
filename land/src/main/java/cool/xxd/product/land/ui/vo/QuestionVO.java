@@ -15,4 +15,5 @@ public class QuestionVO {
     private String answer;
     private List<Long> materialIds;
     private Long paperId;
+    private String paperName;
 }

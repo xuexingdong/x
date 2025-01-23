@@ -9,6 +9,7 @@ import cool.xxd.product.land.infra.model.PaperDO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -30,5 +31,14 @@ public class PaperRepositoryImpl implements PaperRepository {
         var paperDO = paperMapper.selectOne(queryWrapper);
         var paper = PaperConverter.INSTANCE.toSource(paperDO);
         return Optional.ofNullable(paper);
+    }
+
+    @Override
+    public List<Paper> findByPaperIds(List<Long> paperIds) {
+        if (paperIds.isEmpty()) {
+            return List.of();
+        }
+        var paperDO = paperMapper.selectByIds(paperIds);
+        return PaperConverter.INSTANCE.toSourceList(paperDO);
     }
 }
