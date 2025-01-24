@@ -1,0 +1,51 @@
+name: Land Project Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-land:
+    runs-on: ubuntu-latest
+    environment: prod
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 23
+        uses: actions/setup-java@v3
+        with:
+          java-version: "23"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Build with Maven
+        run: |
+          mvn clean install -DskipTests
+          cd land
+          mvn clean package -DskipTests
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            cd /root/apps/xxd/land
+            
+            # 停止并删除旧容器
+            docker stop land || true
+            docker rm land || true
+            
+            # 构建新镜像
+            docker build -t land:latest .
+            
+            # 启动新容器
+            docker run -d \
+              --name land \
+              -p 20200:20200 \
+              -v /root/apps/xxd/land/logs:/opt/land/logs \
+              land:latest
+            
+            # 清理
+            docker image prune -f

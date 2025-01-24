@@ -4,6 +4,8 @@ server:
   servlet:
     context-path: /land
 spring:
+  application:
+    name: land
   mvc:
     problemdetails:
       enabled: true
@@ -52,8 +54,11 @@ mybatis-plus:
 logging:
   level:
     root: info
+  file:
+    name: logs/${spring.application.name}.log
   threshold:
     console: INFO
+    file: INFO
   logback:
     rollingpolicy:
       max-history: 14

@@ -1,3 +1,5 @@
+server:
+  port: 20200
 spring:
   datasource:
     hikari:
