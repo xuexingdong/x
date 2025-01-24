@@ -107,6 +107,11 @@ public class QuestionServiceImpl implements QuestionService {
         return idiomQuestionRelationRepository.findByIdiom(idiom.getWord()).size();
     }
 
+    @Override
+    public Question getById(Long id) {
+        return questionRepository.getById(id);
+    }
+
     private boolean matchIdiom(String s) {
         return s.length() == 4 && s.matches("^[\\u4e00-\\u9fa5]+$");
     }

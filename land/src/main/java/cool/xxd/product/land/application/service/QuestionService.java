@@ -12,4 +12,6 @@ public interface QuestionService {
     void indexIdioms();
 
     Integer countByIdiom(Idiom idiom);
+
+    Question getById(Long id);
 }

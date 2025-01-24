@@ -4,3 +4,4 @@ target/
 .secrets
 .env
 *-prod.yml
+logs

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -52,6 +53,13 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     public void update(Question question) {
         var questionDO = QuestionConverter.INSTANCE.toTarget(question);
         questionMapper.updateById(questionDO);
+    }
+
+    @Override
+    public Optional<Question> findById(Long id) {
+        var questionDO = questionMapper.selectById(id);
+        var question = QuestionConverter.INSTANCE.toSource(questionDO);
+        return Optional.ofNullable(question);
     }
 
     @Override
