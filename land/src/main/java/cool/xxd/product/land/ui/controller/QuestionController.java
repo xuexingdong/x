@@ -46,9 +46,11 @@ public class QuestionController {
 
     @Operation(summary = "根据id查询题目")
     @GetMapping("/{id}")
-    public ResponseEntity<QuestionVO> getId(@NotNull @PathVariable Long id) {
+    public ResponseEntity<QuestionVO> getId(@NotNull @PathVariable("id") Long id) {
         var question = questionService.getById(id);
+        var paper = paperRepository.getById(question.getPaperId());
         var questionVO = QuestionConverter.INSTANCE.toTarget(question);
+        questionVO.setPaperName(paper.getName());
         return ResponseEntity.ok(questionVO);
     }
 }

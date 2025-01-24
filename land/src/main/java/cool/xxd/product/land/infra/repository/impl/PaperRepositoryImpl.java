@@ -25,6 +25,13 @@ public class PaperRepositoryImpl implements PaperRepository {
     }
 
     @Override
+    public Optional<Paper> findById(Long id) {
+        var paperDO = paperMapper.selectById(id);
+        var paper = PaperConverter.INSTANCE.toSource(paperDO);
+        return Optional.ofNullable(paper);
+    }
+
+    @Override
     public Optional<Paper> findByOutPaperId(String outPaperId) {
         var queryWrapper = Wrappers.lambdaQuery(PaperDO.class)
                 .eq(PaperDO::getOutPaperId, outPaperId);
