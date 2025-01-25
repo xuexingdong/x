@@ -22,4 +22,4 @@ COPY target/land-*.jar land.jar
 RUN chown -R appuser:appuser .
 
 USER appuser
-ENTRYPOINT ["java","${JAVA_OPTS} -jar land.jar"]
+ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar land.jar"]
