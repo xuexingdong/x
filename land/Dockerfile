@@ -5,7 +5,7 @@ ENV TZ=Asia/Shanghai \
 
 # 创建非 root 用户
 RUN addgroup -S appuser && \
-    adduser -S -G appuser appuser \
+    adduser -S -G appuser appuser
 
 WORKDIR /app
 
