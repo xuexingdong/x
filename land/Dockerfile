@@ -7,9 +7,9 @@ ENV TZ=Asia/Shanghai \
 RUN addgroup -S appuser && \
     adduser -S -G appuser appuser \
 
-RUN mkdir -p /app/config /app/logs
-
 WORKDIR /app
+
+RUN mkdir -p config logs
 
 # 声明端口和卷
 EXPOSE 20200
