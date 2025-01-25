@@ -19,7 +19,7 @@ VOLUME ["/app/logs", "/app/config"]
 COPY target/classes/*.yml config/
 COPY target/land-*.jar land.jar
 
-RUN chown -R appuser:appuser /app
+RUN chown -R appuser:appuser .
 
 USER appuser
 ENTRYPOINT ["java","${JAVA_OPTS} -jar land.jar"]
