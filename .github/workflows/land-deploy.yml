@@ -66,4 +66,4 @@ jobs:
               land:latest
 
             # 清理
-            docker image prune -f
+            docker image prune -f &
