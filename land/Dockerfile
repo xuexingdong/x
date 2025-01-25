@@ -6,15 +6,15 @@ ENV TZ=Asia/Shanghai \
 RUN addgroup -S appuser && \
     adduser -S -G appuser appuser
 
-WORKDIR /app
+RUN mkdir -p /app/config /app/logs
 
-RUN mkdir -p config logs
+WORKDIR /app
 
 # 声明端口和卷
 EXPOSE 20200
 VOLUME ["/app/logs", "/app/config"]
 
-COPY --chown=appuser:appuser target/classes/application*.yml config/
+COPY --chown=appuser:appuser target/classes/application*.yml /app/config/
 COPY --chown=appuser:appuser target/land*.jar land.jar
 
 USER appuser
