@@ -54,7 +54,7 @@ jobs:
             docker rm land || true
 
             # 构建新镜像
-            docker build -t land:latest .
+            docker build -t land .
 
             # 启动新容器
             docker run -d \
@@ -63,7 +63,7 @@ jobs:
               -p ${{ env.PORT }}:${{ env.PORT }} \
               -v ${{ env.DEPLOY_PATH }}/config:/app/config \
               -v ${{ env.DEPLOY_PATH }}/logs:/app/logs \
-              land:latest
+              land
 
             # 清理
             docker image prune -f &
