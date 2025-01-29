@@ -8,6 +8,9 @@ RUN addgroup -S appuser && \
 
 WORKDIR /app
 
+RUN mkdir -p logs && \
+    chown -R appuser:appuser logs
+
 EXPOSE 20200
 
 COPY --chown=appuser:appuser target/land*.jar land.jar
