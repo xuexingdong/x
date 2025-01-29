@@ -8,12 +8,9 @@ RUN addgroup -S appuser && \
 
 WORKDIR /app
 
-RUN mkdir -p config && \
-    chown -R appuser:appuser config
-
 EXPOSE 20200
 
-COPY --chown=appuser:appuser target/classes/application*.yml config/
+COPY --chown=appuser:appuser target/classes/*.yml config/
 COPY --chown=appuser:appuser target/land*.jar land.jar
 
 USER appuser
