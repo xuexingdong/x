@@ -8,8 +8,8 @@ RUN addgroup -S appuser && \
 
 WORKDIR /app
 
-RUN mkdir -p logs config && \
-    chown -R appuser:appuser logs config
+RUN mkdir -p config && \
+    chown -R appuser:appuser config
 
 EXPOSE 20200
 
