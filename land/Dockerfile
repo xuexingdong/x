@@ -10,7 +10,6 @@ WORKDIR /app
 
 EXPOSE 20200
 
-COPY --chown=appuser:appuser target/classes/*.yml config/
 COPY --chown=appuser:appuser target/land*.jar land.jar
 
 USER appuser

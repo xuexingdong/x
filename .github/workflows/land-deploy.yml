@@ -35,7 +35,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          source: "land/target/*.jar,land/target/classes/*.yml,land/Dockerfile"
+          source: "land/target/*.jar,land/Dockerfile"
           target: ${{ env.DEPLOY_PATH }}
           strip_components: 1
           overwrite: true
@@ -62,7 +62,6 @@ jobs:
               -e "SPRING_PROFILES_ACTIVE=prod" \
               -p ${{ env.PORT }}:${{ env.PORT }} \
               -v ${{ env.DEPLOY_PATH }}/config:/app/config \
-              -v ${{ env.DEPLOY_PATH }}/logs:/app/logs \
               land
 
             # 清理
