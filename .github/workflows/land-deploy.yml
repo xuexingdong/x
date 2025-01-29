@@ -62,6 +62,7 @@ jobs:
               -e "SPRING_PROFILES_ACTIVE=prod" \
               -p ${{ env.PORT }}:${{ env.PORT }} \
               -v ${{ env.DEPLOY_PATH }}/config:/app/config \
+              -v ${{ env.DEPLOY_PATH }}/logs:/app/logs \
               land
 
             # 清理
