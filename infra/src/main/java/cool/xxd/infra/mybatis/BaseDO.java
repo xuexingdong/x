@@ -18,5 +18,5 @@ public abstract class BaseDO {
 
     @TableLogic
     @TableField(fill = FieldFill.INSERT)
-    private Boolean isDeleted;
+    private Boolean deleted;
 }

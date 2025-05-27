@@ -11,27 +11,33 @@
 
     <modules>
         <module>infra</module>
-        <module>x-service</module>
+        <module>service</module>
         <module>land</module>
+        <module>databox</module>
     </modules>
 
     <properties>
         <x.version>1.0.0-SNAPSHOT</x.version>
         <spring.cloud.alibaba.version>2023.0.3.2</spring.cloud.alibaba.version>
-        <spring-boot.version>3.4.2</spring-boot.version>
+        <spring-boot.version>3.4.6</spring-boot.version>
+        <spring-ai.version>1.0.0-SNAPSHOT</spring-ai.version>
         <dubbo.version>3.3.2</dubbo.version>
         <knife4j-openapi3-jakarta-spring-boot-starter.version>4.5.0
         </knife4j-openapi3-jakarta-spring-boot-starter.version>
-        <mybatis-plus.version>3.5.10.1</mybatis-plus.version>
+        <mybatis-plus.version>3.5.12</mybatis-plus.version>
         <leaf-boot-starter.version>1.0.2-RELEASE</leaf-boot-starter.version>
+        <guava.version>33.4.8-jre</guava.version>
         <redisson-spring-boot-starter.version>3.43.0</redisson-spring-boot-starter.version>
         <retrofit-spring-boot-starter.version>3.1.3</retrofit-spring-boot-starter.version>
         <converter-jaxb3.version>2.11.0</converter-jaxb3.version>
         <aliyun-oss-spring-boot-starter.version>1.0.0</aliyun-oss-spring-boot-starter.version>
 
-        <jwt.version>0.12.5</jwt.version>
+        <postgresql.version>42.7.5</postgresql.version>
+        <jjwt.version>0.12.6</jjwt.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
         <fastjson2.version>2.0.54</fastjson2.version>
+        <bcprov-jdk18on.version>1.80</bcprov-jdk18on.version>
+
         <lombok.version>1.18.36</lombok.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
 
@@ -43,12 +49,47 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <name>Central Portal Snapshots</name>
+            <id>central-portal-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cool.xxd</groupId>
                 <artifactId>infra</artifactId>
                 <version>${x.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cool.xxd</groupId>
+                <artifactId>user</artifactId>
+                <version>${x.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
@@ -94,6 +135,11 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
+                <version>${spring-ai.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.tencent.devops.leaf</groupId>
                 <artifactId>leaf-boot-starter</artifactId>
                 <version>${leaf-boot-starter.version}</version>
@@ -110,7 +156,43 @@
                         <groupId>com.google.protobuf</groupId>
                         <artifactId>protobuf-java</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bcprov-jdk18on.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>

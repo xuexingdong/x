@@ -33,7 +33,7 @@ public class MybatisPlusConfig implements MetaObjectHandler {
         var now = LocalDateTime.now();
         this.strictInsertFill(metaObject, "createTime", () -> now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "updateTime", () -> now, LocalDateTime.class);
-        this.strictInsertFill(metaObject, "isDeleted", () -> false, Boolean.class);
+        this.strictInsertFill(metaObject, "deleted", () -> false, Boolean.class);
     }
 
     @Override

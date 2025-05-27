@@ -1,0 +1,9 @@
+### 注册
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+  "username": "xxd",
+  "password": "123456",
+  "confirm_password": "123456"
+}
