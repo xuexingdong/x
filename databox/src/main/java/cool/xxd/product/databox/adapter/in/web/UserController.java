@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,7 +60,8 @@ public class UserController {
 
     @Operation(summary = "查看当前用户信息")
     @PostMapping("/currentUser")
-    public Response<UserResponse> currentUser(@AuthenticationPrincipal String username) {
+    public Response<UserResponse> currentUser(@AuthenticationPrincipal UserDetails userDetails) {
+        var username = userDetails.getUsername();
         var user = userService.getByUsername(username);
         var userResponse = new UserResponse();
         userResponse.setUsername(username);
