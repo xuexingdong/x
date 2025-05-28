@@ -1,17 +1,15 @@
-package cool.xxd.service.user.application.service;
+package cool.xxd.service.user.domain.service;
 
-import cool.xxd.service.user.domain.aggregate.User;
 import cool.xxd.service.user.domain.command.LoginCommand;
 import cool.xxd.service.user.domain.command.RegisterCommand;
 import cool.xxd.service.user.domain.valueobject.Token;
 
 import java.util.Optional;
 
-public interface UserService {
-
+public interface UserDomainService {
     Long register(RegisterCommand registerCommand);
 
     Token login(LoginCommand loginCommand);
 
-    User getByUsername(String username);
+    Optional<String> parseToken(String token);
 }

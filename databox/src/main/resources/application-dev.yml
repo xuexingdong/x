@@ -1,0 +1,3 @@
+jwt:
+  secret-key: ZaulChIe5LHZXHfKEUBFA0LtCAYq9jdPpp+iPAQLzug=
+  expiration: 7d

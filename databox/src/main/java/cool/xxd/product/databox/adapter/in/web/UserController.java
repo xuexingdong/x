@@ -5,6 +5,7 @@ import cool.xxd.product.databox.application.dto.request.LoginRequest;
 import cool.xxd.product.databox.application.dto.request.RegisterRequest;
 import cool.xxd.product.databox.application.dto.response.LoginResponse;
 import cool.xxd.product.databox.application.dto.response.RegisterResponse;
+import cool.xxd.product.databox.application.dto.response.UserResponse;
 import cool.xxd.service.user.application.service.UserService;
 import cool.xxd.service.user.domain.command.LoginCommand;
 import cool.xxd.service.user.domain.command.RegisterCommand;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,8 +52,18 @@ public class UserController {
         loginCommand.setUsername(loginRequest.getUsername());
         loginCommand.setPassword(loginRequest.getPassword());
         var token = userService.login(loginCommand);
-        var tokenVO = new LoginResponse();
-        tokenVO.setToken(token.token());
-        return Response.data(tokenVO);
+        var loginResponse = new LoginResponse();
+        loginResponse.setToken(token.token());
+        return Response.data(loginResponse);
+    }
+
+    @Operation(summary = "查看当前用户信息")
+    @PostMapping("/currentUser")
+    public Response<UserResponse> currentUser(@AuthenticationPrincipal String username) {
+        var user = userService.getByUsername(username);
+        var userResponse = new UserResponse();
+        userResponse.setUsername(username);
+        userResponse.setUserStatus(user.getUserStatus().getCode());
+        return Response.data(userResponse);
     }
 }

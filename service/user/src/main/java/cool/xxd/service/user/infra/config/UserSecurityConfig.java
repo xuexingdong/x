@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class SecurityConfig {
+public class UserSecurityConfig {
 
     private static final int BCRYPT_PASSWORD_ENCODER_STRENGTH = 4;
 

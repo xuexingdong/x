@@ -2,6 +2,7 @@ package cool.xxd.product.databox.adapter.in.mcp;
 
 import cool.xxd.product.databox.application.dto.request.LoginRequest;
 import cool.xxd.product.databox.application.dto.request.RegisterRequest;
+import cool.xxd.product.databox.application.dto.response.UserResponse;
 import cool.xxd.service.user.application.service.UserService;
 import cool.xxd.service.user.domain.command.LoginCommand;
 import cool.xxd.service.user.domain.command.RegisterCommand;
@@ -9,6 +10,7 @@ import cool.xxd.service.user.domain.valueobject.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -35,5 +37,16 @@ public class UserMcpService {
         loginCommand.setUsername(loginRequest.getUsername());
         loginCommand.setPassword(loginRequest.getPassword());
         return userService.login(loginCommand);
+    }
+
+    @Tool(description = "查看当前用户信息")
+    public UserResponse currentUser() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var username = authentication.getName();
+        var user = userService.getByUsername(username);
+        var userResponse = new UserResponse();
+        userResponse.setUsername(username);
+        userResponse.setUserStatus(user.getUserStatus().getCode());
+        return userResponse;
     }
 }

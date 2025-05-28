@@ -1,0 +1,100 @@
+package cool.xxd.service.user.domain.service.impl;
+
+import cool.xxd.infra.X;
+import cool.xxd.infra.exceptions.BusinessException;
+import cool.xxd.infra.lock.LockTemplate;
+import cool.xxd.service.user.application.constants.CacheKeys;
+import cool.xxd.service.user.domain.aggregate.User;
+import cool.xxd.service.user.domain.command.LoginCommand;
+import cool.xxd.service.user.domain.command.RegisterCommand;
+import cool.xxd.service.user.domain.factory.UserFactory;
+import cool.xxd.service.user.domain.repository.UserRepository;
+import cool.xxd.service.user.domain.service.UserDomainService;
+import cool.xxd.service.user.domain.valueobject.Token;
+import cool.xxd.service.user.infra.config.JwtConfig;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.crypto.SecretKey;
+import java.util.Base64;
+import java.util.Optional;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class UserDomainServiceImpl implements UserDomainService {
+
+    private final LockTemplate lockTemplate;
+    private final UserRepository userRepository;
+    private final UserFactory userFactory;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtConfig jwtConfig;
+
+    @Override
+    public Long register(RegisterCommand registerCommand) {
+        validateConfirmPassword(registerCommand);
+        var lockKey = CacheKeys.ADD_USER + registerCommand.getUsername();
+        return lockTemplate.execute(lockKey, () -> {
+            userRepository.findByUsername(registerCommand.getUsername())
+                    .ifPresent(_ -> {
+                        throw new BusinessException("用户名已存在");
+                    });
+            var encodedPassword = passwordEncoder.encode(registerCommand.getPassword());
+            var user = userFactory.create(registerCommand.getUsername(), encodedPassword);
+            userRepository.save(user);
+            return user.getId();
+        });
+    }
+
+    @Override
+    public Token login(LoginCommand loginCommand) {
+        var user = userRepository.findByUsername(loginCommand.getUsername())
+                .orElseThrow(() -> new BusinessException("用户不存在"));
+        if (!passwordEncoder.matches(loginCommand.getPassword(), user.getPassword())) {
+            throw new BusinessException("密码错误");
+        }
+        var token = generateToken(user);
+        X.cache.save(CacheKeys.USER + user.getUsername(), user, jwtConfig.getExpiration());
+        return new Token(token);
+    }
+
+    @Override
+    public Optional<String> parseToken(String token) {
+        byte[] encodedKey = Base64.getEncoder().encode(jwtConfig.getSecretKey().getBytes());
+        SecretKey secretKey = Keys.hmacShaKeyFor(encodedKey);
+        Claims claims;
+        try {
+            claims = Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (Exception e) {
+            log.error("当前用户登录过期:{}", token, e);
+            return Optional.empty();
+        }
+        var username = claims.getSubject();
+        return X.cache.load(CacheKeys.USER + username, User.class)
+                .map(User::getUsername);
+    }
+
+    private void validateConfirmPassword(RegisterCommand registerCommand) {
+        if (!registerCommand.getPassword().equals(registerCommand.getConfirmPassword())) {
+            throw new BusinessException("密码和确认密码不匹配");
+        }
+    }
+
+    private String generateToken(User user) {
+        var encodedKey = Base64.getEncoder().encode(jwtConfig.getSecretKey().getBytes());
+        var key = Keys.hmacShaKeyFor(encodedKey);
+        return Jwts.builder()
+                .subject(user.getUsername())
+                .signWith(key)
+                .compact();
+    }
+}

@@ -1,6 +1,6 @@
 ---
 description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
-1. 数据库是postgresql
+你只能对代码进行读取，无法直接修改代码，只能在聊天上下文中给出修改建议
