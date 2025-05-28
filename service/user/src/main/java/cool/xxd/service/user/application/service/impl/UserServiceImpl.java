@@ -39,7 +39,8 @@ public class UserServiceImpl implements UserService {
                     .ifPresent(_ -> {
                         throw new BusinessException("用户名已存在");
                     });
-            var user = userFactory.create(registerCommand.getUsername(), registerCommand.getPassword());
+            var encodedPassword = passwordEncoder.encode(registerCommand.getPassword());
+            var user = userFactory.create(registerCommand.getUsername(), encodedPassword);
             userRepository.save(user);
             return user.getId();
         });

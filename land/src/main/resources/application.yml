@@ -26,7 +26,6 @@ spring:
       host: localhost
       port: 6379
   jackson:
-    property-naming-strategy: SNAKE_CASE
     deserialization:
       read-unknown-enum-values-as-null: true
     serialization:
