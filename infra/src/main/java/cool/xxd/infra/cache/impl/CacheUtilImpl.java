@@ -4,6 +4,7 @@ import cool.xxd.infra.cache.CacheUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;
+import org.redisson.api.RList;
 import org.redisson.api.RedissonClient;
 import org.redisson.codec.TypedJsonJacksonCodec;
 import org.springframework.stereotype.Component;
@@ -38,7 +39,7 @@ public class CacheUtilImpl implements CacheUtil {
     @Override
     public <T> void save(String key, T value, Duration duration) {
         Objects.requireNonNull(duration);
-        var bucket = redissonClient.getBucket(key, typedJsonJacksonCodec);
+        RBucket<T> bucket = redissonClient.getBucket(key, typedJsonJacksonCodec);
         bucket.set(value, duration);
     }
 
@@ -55,19 +56,19 @@ public class CacheUtilImpl implements CacheUtil {
 
     @Override
     public <T> void add(String key, T value) {
-        var list = redissonClient.getList(key, typedJsonJacksonCodec);
+        RList<T> list = redissonClient.getList(key, typedJsonJacksonCodec);
         list.add(value);
     }
 
     @Override
     public <T> void addFirst(String key, T value) {
-        var list = redissonClient.getList(key, typedJsonJacksonCodec);
+        RList<T> list = redissonClient.getList(key, typedJsonJacksonCodec);
         list.addFirst(value);
     }
 
     @Override
     public <T> void addAll(String key, List<T> value) {
-        var list = redissonClient.getList(key, typedJsonJacksonCodec);
+        RList<T> list = redissonClient.getList(key, typedJsonJacksonCodec);
         list.addAll(value);
     }
 

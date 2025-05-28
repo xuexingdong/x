@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .password(user.getPassword())
                 .authorities(getAuthorities(user))
                 .accountLocked(false)
-                .disabled(user.getUserStatus() != UserStatus.DISABLED)
+                .disabled(user.getUserStatus() == UserStatus.DISABLED)
                 .build();
     }
 
