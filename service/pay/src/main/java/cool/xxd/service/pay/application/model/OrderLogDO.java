@@ -1,14 +1,14 @@
 package cool.xxd.service.pay.application.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import cool.xxd.infra.mapper.BaseDO;
+import cool.xxd.infra.mybatis.XBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("hckj_pc_order_log")
-public class OrderLogDO extends BaseDO {
+public class OrderLogDO extends XBaseDO {
     private String appid;
     private String mchid;
     private String payOrderNo;

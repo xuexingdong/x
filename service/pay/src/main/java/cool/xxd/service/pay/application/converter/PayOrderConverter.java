@@ -1,6 +1,6 @@
 package cool.xxd.service.pay.application.converter;
 
-import group.hckj.pay.application.model.PayOrderDO;
+import cool.xxd.service.pay.application.model.PayOrderDO;
 import cool.xxd.service.pay.domain.aggregate.PayOrder;
 import cool.xxd.service.pay.domain.enums.TransModeEnum;
 import org.mapstruct.AfterMapping;

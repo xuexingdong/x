@@ -3,7 +3,7 @@ POST {{baseUrl}}/users/register
 Content-Type: application/json
 
 {
-  "username": "xxd",
+  "username": "xxd2",
   "password": "123456",
   "confirmPassword": "123456"
 }

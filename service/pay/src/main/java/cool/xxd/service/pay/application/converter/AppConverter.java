@@ -2,7 +2,7 @@ package cool.xxd.service.pay.application.converter;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import group.hckj.pay.application.model.AppDO;
+import cool.xxd.service.pay.application.model.AppDO;
 import cool.xxd.service.pay.domain.aggregate.App;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

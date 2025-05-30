@@ -1,6 +1,6 @@
 package cool.xxd.service.pay.application.service.impl;
 
-import group.hckj.pay.application.service.MerchantPayChannelService;
+import cool.xxd.service.pay.application.service.MerchantPayChannelService;
 import cool.xxd.service.pay.domain.command.AddMerchantPayChannelCommand;
 import cool.xxd.service.pay.domain.command.ConfigMerchantPayChannelCommand;
 import cool.xxd.service.pay.domain.command.DeleteMerchantPayChannelCommand;

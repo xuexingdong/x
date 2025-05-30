@@ -1,0 +1,159 @@
+@startuml
+
+entity PayType as "支付方式" {
+    * id
+    --
+    * code
+    name
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+note top of PayType
+    用户选择的支付手段，
+    如支付宝、微信支付、银行卡等，
+    表示资金来源或转移方式。
+    如微信支付/支付宝
+end note
+
+entity PayChannel as "支付渠道" {
+    * id
+    --
+    * code
+    name
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+note top of PayChannel
+    中介服务提供商，
+    将支付方式与资金池连接，不存储资金，
+    处理支付交易的技术细节。
+    如富友/新大陆
+end note
+
+entity PayChannelPayType as "支付渠道支持的支付方式" {
+    * id
+    --
+    * pay_channel_code
+    * pay_type_code
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity App as "应用" {
+    * id
+    --
+    * appid
+    order_no_prefix
+    notify_url
+    public_key
+    private_key
+    config
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity Merchant as "商户" {
+    * id
+    --
+    * appid
+    * mchid
+    name
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity MerchantPayChannel as "商户支持的支付渠道" {
+    * id
+    * mchid
+    * pay_channel_code
+    config
+    --
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity PayOrder as "支付单" {
+    * id
+    --
+    * appid
+    * pay_order_no
+    * out_trade_no
+    * total_amount
+    refunded_amount
+    sub_appid
+    sub_openid
+    * pay_type_code
+    pay_type_name
+    * pay_channel_code
+    pay_channel_name
+    * trade_time
+    time_expire
+    subject
+    description
+    custom_data
+    * pay_status
+    pay_time
+    third_trade_no
+    client_pay_invoke_params
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity RefundOrder as "退款单" {
+    * id
+    --
+    * appid
+    * mchid
+    * pay_order_no
+    * out_trade_no
+    * refund_order_no
+    * out_refund_no
+    * total_amount
+    * refund_amount
+    refund_reason
+    * pay_type_code
+    pay_type_name
+    * pay_channel_code
+    pay_channel_name
+    * refund_status
+    refund_time
+    third_trade_no
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity OrderLog as "日志" {
+    * id
+    --
+    * appid
+    * mchid
+    pay_order_no
+    refund_order_no
+    req
+    resp
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+PayType ||--o{ PayChannelPayType
+PayChannel ||--o{ PayChannelPayType
+App ||--o{ Merchant
+Merchant ||--o{ MerchantPayChannel
+Merchant ||--o{ PayOrder
+Merchant ||--o{ RefundOrder
+PayOrder ||--o{ RefundOrder
+PayOrder ||--o{ OrderLog
+RefundOrder ||--o{ OrderLog
+
+@enduml

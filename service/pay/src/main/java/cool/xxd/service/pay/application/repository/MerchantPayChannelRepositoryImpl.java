@@ -1,9 +1,9 @@
 package cool.xxd.service.pay.application.repository;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import group.hckj.pay.application.converter.MerchantPayChannelConverter;
-import group.hckj.pay.application.mapper.MerchantPayChannelMapper;
-import group.hckj.pay.application.model.MerchantPayChannelDO;
+import cool.xxd.service.pay.application.converter.MerchantPayChannelConverter;
+import cool.xxd.service.pay.application.mapper.MerchantPayChannelMapper;
+import cool.xxd.service.pay.application.model.MerchantPayChannelDO;
 import cool.xxd.service.pay.domain.aggregate.MerchantPayChannel;
 import cool.xxd.service.pay.domain.repository.MerchantPayChannelRepository;
 import lombok.RequiredArgsConstructor;

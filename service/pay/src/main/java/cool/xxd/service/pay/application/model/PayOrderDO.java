@@ -1,7 +1,7 @@
 package cool.xxd.service.pay.application.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import cool.xxd.infra.mapper.BaseDO;
+import cool.xxd.infra.mybatis.XBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("hckj_pc_pay_order")
-public class PayOrderDO extends BaseDO {
+public class PayOrderDO extends XBaseDO {
     private String appid;
     private String mchid;
     private String payOrderNo;

@@ -1,6 +1,6 @@
 package cool.xxd.service.trade.domain.aggregate;
 
-import cloud.huizeng.oc.domain.enums.ItemActiveStatusEnum;
+import cool.xxd.service.trade.domain.enums.ItemActiveStatusEnum;
 import lombok.Data;
 
 import java.math.BigDecimal;

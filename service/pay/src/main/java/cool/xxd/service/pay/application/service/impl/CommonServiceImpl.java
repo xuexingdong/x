@@ -1,7 +1,7 @@
 package cool.xxd.service.pay.application.service.impl;
 
 import cool.xxd.infra.exceptions.BusinessException;
-import group.hckj.pay.application.service.CommonService;
+import cool.xxd.service.pay.application.service.CommonService;
 import cool.xxd.service.pay.domain.repository.AppRepository;
 import cool.xxd.service.pay.domain.repository.MerchantRepository;
 import group.hckj.pay.ui.request.BaseRequest;

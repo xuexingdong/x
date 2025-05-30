@@ -1,7 +1,7 @@
 package cool.xxd.service.pay.application.factory.impl;
 
 import cool.xxd.infra.idgen.IdGenerator;
-import group.hckj.pay.application.model.OrderLogDO;
+import cool.xxd.service.pay.application.model.OrderLogDO;
 import cool.xxd.service.pay.domain.aggregate.OrderLog;
 import cool.xxd.service.pay.domain.aggregate.PayOrder;
 import cool.xxd.service.pay.domain.aggregate.RefundOrder;

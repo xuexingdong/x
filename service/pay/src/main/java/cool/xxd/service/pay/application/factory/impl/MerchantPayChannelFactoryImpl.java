@@ -1,7 +1,7 @@
 package cool.xxd.service.pay.application.factory.impl;
 
 import cool.xxd.infra.idgen.IdGenerator;
-import group.hckj.pay.application.model.MerchantPayChannelDO;
+import cool.xxd.service.pay.application.model.MerchantPayChannelDO;
 import cool.xxd.service.pay.domain.aggregate.MerchantPayChannel;
 import cool.xxd.service.pay.domain.command.AddMerchantPayChannelCommand;
 import cool.xxd.service.pay.domain.command.ConfigMerchantPayChannelCommand;

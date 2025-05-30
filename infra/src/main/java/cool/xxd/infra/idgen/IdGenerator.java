@@ -1,8 +1,8 @@
 package cool.xxd.infra.idgen;
 
-import cool.xxd.infra.mybatis.BaseDO;
+import cool.xxd.infra.mybatis.XBaseDO;
 
 public interface IdGenerator {
 
-    <T extends BaseDO> Long nextId(Class<T> clazz);
+    <T extends XBaseDO> Long nextId(Class<T> clazz);
 }

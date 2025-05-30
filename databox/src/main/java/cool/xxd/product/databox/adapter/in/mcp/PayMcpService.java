@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserMcpService {
+public class PayMcpService {
 
     private final UserService userService;
     private final UserDomainService userDomainService;

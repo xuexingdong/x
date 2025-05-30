@@ -2,7 +2,7 @@ package cool.xxd.service.pay.application.factory.impl;
 
 import cool.xxd.infra.idgen.IdGenerator;
 import cool.xxd.infra.serial.SerialNoGenerator;
-import group.hckj.pay.application.model.PayOrderDO;
+import cool.xxd.service.pay.application.model.PayOrderDO;
 import cool.xxd.service.pay.domain.aggregate.App;
 import cool.xxd.service.pay.domain.aggregate.Merchant;
 import cool.xxd.service.pay.domain.aggregate.PayOrder;

@@ -1,0 +1,127 @@
+@startuml
+
+entity App as "应用" {
+    * id
+    --
+    * appid
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity Account as "账户" {
+    * id
+    --
+    * appid
+    * client_id : 客户id，比如惠增的会员id或店铺id（加前缀避免重复），比如合送的店铺id
+    * balance_amount
+    * available_mount
+    * cash_amount : 现金金额
+    * bonus_amount : 赠送金额
+    * frozen_amount
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity DepositOrder as "充值单" {
+    * id
+    --
+    * deposit_order_no
+    * out_trade_no
+    * deposit_amount
+    * bonus_amount : 赠送金额
+    * withdrawable_amount : 可提现金额
+    * deposit_status
+    deposit_time
+    * account_id
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity FreezeOrder as "冻结单" {
+    * id
+    --
+    * freeze_order_no
+    * freeze_amount
+    * freeze_status : 冻结中/已解冻/已消费
+    * freeze_time
+    * account_id
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity ConsumeOrder as "消费单" {
+    * id
+    --
+    * consume_order_no
+    * consume_amount
+    * consume_cash_amount
+    * consume_bonus_amount
+    * consume_time
+    * refunded_amount
+    * refunded_cash_amount
+    * refunded_bonus_amount
+    * freeze_order_no
+    * account_id
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity RefundOrder as "退款单" {
+    * id
+    --
+    * refund_order_no
+    * refund_amount
+    * refund_cash_amount
+    * refund_bonus_amount
+    * refund_time
+    refund_order_id
+    * account_id
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity WithdrawOrder as "提现单" {
+    * id
+    --
+    * withdraw_order_no : 提现单号
+    * withdraw_amount
+    * withdraw_status
+    * withdraw_time
+    deposit_order_id : 有可能为空，比如以后直接转账提现
+    * account_id
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+entity AccountTransRecord as "账户交易记录" {
+    * id
+    --
+    * account_id
+    * trans_type : 交易类型，充值/消费/退款/提现
+    * flow_type : 收支类型，收入/支出
+    * trans_time : 交易时间
+    * change_amount : 变动金额，有正负
+    * balance_amount_after_change : 变动后金额
+    * relate_order_id : 关联单id
+    * create_time
+    * update_time
+    * is_deleted
+}
+
+App ||--o{ Account
+Account ||--o{ DepositOrder
+Account ||--o{ ConsumeOrder
+Account ||--o{ RefundOrder
+Account ||--o{ WithdrawOrder
+DepositOrder ||--o{ WithdrawOrder
+ConsumeOrder ||--o{ RefundOrder
+Account ||--o{ AccountTransRecord
+
+@enduml

@@ -3,7 +3,7 @@ package cool.xxd.service.pay.application.service.impl;
 import cool.xxd.infra.enums.CommonEnum;
 import cool.xxd.infra.exceptions.BusinessException;
 import cool.xxd.infra.lock.LockTemplate;
-import group.hckj.pay.application.service.PayService;
+import cool.xxd.service.pay.application.service.PayService;
 import cool.xxd.service.pay.domain.aggregate.App;
 import cool.xxd.service.pay.domain.aggregate.Merchant;
 import cool.xxd.service.pay.domain.aggregate.PayOrder;

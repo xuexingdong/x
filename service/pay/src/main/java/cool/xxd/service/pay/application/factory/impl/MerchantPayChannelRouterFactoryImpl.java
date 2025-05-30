@@ -1,7 +1,7 @@
 package cool.xxd.service.pay.application.factory.impl;
 
 import cool.xxd.infra.idgen.IdGenerator;
-import group.hckj.pay.application.model.MerchantPayChannelRouterDO;
+import cool.xxd.service.pay.application.model.MerchantPayChannelRouterDO;
 import cool.xxd.service.pay.domain.aggregate.MerchantPayChannelRouter;
 import cool.xxd.service.pay.domain.factory.MerchantPayChannelRouterFactory;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package cool.xxd.service.pay.application.converter;
 
-import group.hckj.pay.application.model.OrderLogDO;
+import cool.xxd.service.pay.application.model.OrderLogDO;
 import cool.xxd.service.pay.domain.aggregate.OrderLog;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

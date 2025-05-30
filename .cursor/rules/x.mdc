@@ -3,4 +3,18 @@ description:
 globs: 
 alwaysApply: true
 ---
-你只能对代码进行读取，无法直接修改代码，只能在聊天上下文中给出修改建议
+# 整体原则
+1. 你只能对代码进行读取，无法直接修改代码，只能在聊天上下文中给出修改建议
+
+## 数据库设计原则
+1. 无外键约束
+2. 创建表和索引时，都使用CREATE IF NOT EXISTS
+3. 所有表均有以下字段，且存在idx_create_time和idx_update_time索引
+id              BIGINT PRIMARY KEY,
+create_time     TIMESTAMP    NOT NULL,
+update_time     TIMESTAMP    NOT NULL,
+deleted         BOOLEAN      NOT NULL
+其余字段均可以为空
+4. 日期时间使用TIMESTAMP
+5. VARCHAR长度只有50，255，两种情况，其他情况为TEXT
+6. 静态表关联时，倾向于使用code而不是id

@@ -1,9 +1,9 @@
 package cool.xxd.service.pay.application.repository;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import group.hckj.pay.application.converter.AppConverter;
-import group.hckj.pay.application.mapper.AppMapper;
-import group.hckj.pay.application.model.AppDO;
+import cool.xxd.service.pay.application.converter.AppConverter;
+import cool.xxd.service.pay.application.mapper.AppMapper;
+import cool.xxd.service.pay.application.model.AppDO;
 import cool.xxd.service.pay.domain.aggregate.App;
 import cool.xxd.service.pay.domain.repository.AppRepository;
 import lombok.RequiredArgsConstructor;

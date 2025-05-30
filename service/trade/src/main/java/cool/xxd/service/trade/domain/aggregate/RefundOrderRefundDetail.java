@@ -1,9 +1,9 @@
 package cool.xxd.service.trade.domain.aggregate;
 
-import cloud.huizeng.common.BusinessException;
-import cloud.huizeng.oc.domain.enums.OrderPayDetailTypeEnum;
-import cloud.huizeng.oc.domain.enums.RefundOrderRefundDetailRefundStatus;
-import cloud.huizeng.oc.domain.valueobject.RefundOrderRefundDetailRefundResult;
+import cool.xxd.infra.exceptions.BusinessException;
+import cool.xxd.service.trade.domain.enums.OrderPayDetailTypeEnum;
+import cool.xxd.service.trade.domain.enums.RefundOrderRefundDetailRefundStatus;
+import cool.xxd.service.trade.domain.valueobject.RefundOrderRefundDetailRefundResult;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
