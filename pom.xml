@@ -12,8 +12,7 @@
     <modules>
         <module>infra</module>
         <module>service</module>
-        <module>land</module>
-        <module>databox</module>
+        <module>product</module>
     </modules>
 
     <properties>

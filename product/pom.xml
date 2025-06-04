@@ -1,0 +1,33 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cool.xxd</groupId>
+        <artifactId>x-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>product</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>land</module>
+        <module>databox</module>
+        <module>msw</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cool.xxd</groupId>
+            <artifactId>infra</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
