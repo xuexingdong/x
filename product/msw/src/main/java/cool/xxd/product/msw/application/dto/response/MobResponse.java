@@ -1,12 +1,11 @@
-package cool.xxd.product.msw.domain.aggregate;
+package cool.xxd.product.msw.application.dto.response;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
-public class Mob {
-    private Long id;
+public class MobResponse {
     private String code;
     private String name;
 
@@ -22,5 +21,4 @@ public class Mob {
     private Integer evasion;
     private Integer baseAccuracyRequirement;
     private BigDecimal accuracyLevelPenalty;
-
 }

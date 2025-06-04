@@ -1,0 +1,56 @@
+server:
+  port: 8080
+  shutdown: "graceful"
+  servlet:
+    context-path: /msw
+spring:
+  application:
+    name: msw
+  mvc:
+    problemdetails:
+      enabled: true
+    log-request-details: true
+    log-resolved-exception: true
+  datasource:
+    hikari:
+      validation-timeout: 60000
+      connection-test-query: select 1
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/x?useUnicode=true&rewriteBatchedStatements=true
+    driver-class-name: org.postgresql.Driver
+    username: root
+    password: 123456
+  data:
+    redis:
+      database: 0
+      host: localhost
+      port: 6379
+  jackson:
+    deserialization:
+      read-unknown-enum-values-as-null: true
+    serialization:
+      write-dates-as-timestamps: false
+  ai:
+    mcp:
+      server:
+        name: msw
+        base-url: /msw
+leaf:
+  name: msw
+  segment:
+    enable: true
+    url: jdbc:postgresql://localhost:5432/x
+    username: root
+    password: 123456
+logging:
+  level:
+    root: info
+  file:
+    name: logs/${spring.application.name}.log
+  threshold:
+    console: INFO
+    file: INFO
+  logback:
+    rollingpolicy:
+      max-history: 14
+      max-file-size: 1024MB

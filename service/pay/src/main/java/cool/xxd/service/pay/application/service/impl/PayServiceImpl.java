@@ -123,6 +123,13 @@ public class PayServiceImpl implements PayService {
         }
     }
 
+    @Override
+    public void timeout() {
+        var payOrderQuery = new PayOrderQuery();
+        payOrderQuery.setFromTimeExpire();
+        payOrderRepository.query(payOrderQuery)
+    }
+
     private PayTypeEnum getPayType(PayCommand payCommand) {
         PayTypeEnum payTypeEnum;
         // 扫码付优先级最高，后台自动判断支付方式

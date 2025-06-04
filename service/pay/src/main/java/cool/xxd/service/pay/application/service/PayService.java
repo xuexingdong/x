@@ -18,4 +18,6 @@ public interface PayService {
 
     void batchExpire();
 
+    void timeout();
+
 }

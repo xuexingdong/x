@@ -1,12 +1,12 @@
-package cool.xxd.product.msw.domain.aggregate;
+package cool.xxd.product.msw.application.dto.response;
 
 import lombok.Data;
 
 @Data
-public class Item {
+public class ItemResponse {
     private Long id;
     private String code;
     private String name;
     private Integer itemType;
-    private String itmTypeName;
+    private String itemTypeName;
 }
