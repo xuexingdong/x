@@ -26,7 +26,7 @@
         <mybatis-plus.version>3.5.12</mybatis-plus.version>
         <leaf-boot-starter.version>1.0.2-RELEASE</leaf-boot-starter.version>
         <guava.version>33.4.8-jre</guava.version>
-        <redisson-spring-boot-starter.version>3.43.0</redisson-spring-boot-starter.version>
+        <redisson-spring-boot-starter.version>3.48.0</redisson-spring-boot-starter.version>
         <retrofit-spring-boot-starter.version>3.1.6</retrofit-spring-boot-starter.version>
         <converter-jaxb3.version>2.11.0</converter-jaxb3.version>
         <aliyun-oss-spring-boot-starter.version>1.0.0</aliyun-oss-spring-boot-starter.version>
@@ -43,9 +43,9 @@
 
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
 
-        <java.version>23</java.version>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

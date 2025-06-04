@@ -9,6 +9,6 @@ CREATE TABLE t_leaf_alloc
 );
 
 insert into t_leaf_alloc(biz_tag, max_id, step, description, update_time)
-values ('x_msw_mob', 1, 100, '', NOW()),
-       ('x_msw_item', 1, 100, '', NOW()),
-       ('x_msw_mob_item', 1, 100, '', NOW());
+values ('msw_mob', 1, 100, '', NOW()),
+       ('msw_item', 1, 100, '', NOW()),
+       ('msw_mob_item', 1, 100, '', NOW());

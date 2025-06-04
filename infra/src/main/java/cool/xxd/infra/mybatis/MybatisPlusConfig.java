@@ -1,12 +1,12 @@
 package cool.xxd.infra.mybatis;
 
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 @EnableConfigurationProperties(XMybatisPlusProperties.class)
@@ -29,6 +28,24 @@ public class MybatisPlusConfig implements MetaObjectHandler {
         interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(properties.getDbType()));
         return interceptor;
+    }
+
+    @Bean
+    public GlobalConfig globalConfig() {
+        var globalConfig = new GlobalConfig();
+        var dbConfig = new GlobalConfig.DbConfig();
+
+        // 设置逻辑删除配置
+        dbConfig.setLogicDeleteField(properties.getLogicDeleteField());
+        dbConfig.setLogicDeleteValue(properties.getLogicDeleteValue());
+        dbConfig.setLogicNotDeleteValue(properties.getLogicNotDeleteValue());
+
+        // 设置ID类型
+        dbConfig.setIdType(properties.getIdType());
+
+        globalConfig.setDbConfig(dbConfig);
+
+        return globalConfig;
     }
 
     @Override

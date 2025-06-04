@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS x_msw_mob
+CREATE TABLE IF NOT EXISTS msw_mob
 (
     id                        BIGINT PRIMARY KEY,
     code                      VARCHAR(50),
@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS x_msw_mob
     deleted                   BOOLEAN   NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_code ON x_msw_mob (code);
+CREATE INDEX IF NOT EXISTS idx_code ON msw_mob (code);
 
-CREATE TABLE IF NOT EXISTS x_msw_item
+CREATE TABLE IF NOT EXISTS msw_item
 (
     id          BIGINT PRIMARY KEY,
     code        VARCHAR(50),
@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS x_msw_item
     deleted     BOOLEAN   NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_code ON x_msw_item (code);
+CREATE INDEX IF NOT EXISTS idx_code ON msw_item (code);
 
-CREATE TABLE IF NOT EXISTS x_msw_mob_item
+CREATE TABLE IF NOT EXISTS msw_mob_item
 (
     id          BIGINT PRIMARY KEY,
     mob_code    VARCHAR(50),
@@ -45,5 +45,5 @@ CREATE TABLE IF NOT EXISTS x_msw_mob_item
     deleted     BOOLEAN   NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_mob_code ON x_msw_mob_item (mob_code);
-CREATE INDEX IF NOT EXISTS idx_item_code ON x_msw_mob_item (item_code);
+CREATE INDEX IF NOT EXISTS idx_mob_code ON msw_mob_item (mob_code);
+CREATE INDEX IF NOT EXISTS idx_item_code ON msw_mob_item (item_code);

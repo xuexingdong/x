@@ -30,6 +30,12 @@ public class MobItemRepositoryImpl implements MobItemRepository {
 
     @Override
     public List<MobItem> findByItemCodes(List<String> itemCodes) {
-        return List.of();
+        if (itemCodes.isEmpty()) {
+            return List.of();
+        }
+        var queryWrapper = Wrappers.lambdaQuery(MobItemDO.class)
+                .in(MobItemDO::getItemCode, itemCodes);
+        var mobItemDOList = mobItemMapper.selectList(queryWrapper);
+        return MobItemConverter.INSTANCE.do2domain(mobItemDOList);
     }
 }

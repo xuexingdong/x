@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("msw_item")
+@TableName(value = "msw_item")
 public class ItemDO extends XBaseDO {
     private String code;
     private String name;

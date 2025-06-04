@@ -63,7 +63,7 @@ public class CacheUtilImpl implements CacheUtil {
     @Override
     public <T> void addFirst(String key, T value) {
         RList<T> list = redissonClient.getList(key, jsonJacksonCodec);
-        list.addFirst(value);
+        list.add(0, value);
     }
 
     @Override

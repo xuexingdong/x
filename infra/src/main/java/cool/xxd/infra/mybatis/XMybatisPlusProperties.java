@@ -13,8 +13,6 @@ public class XMybatisPlusProperties {
 
     private IdType idType = IdType.INPUT;
 
-    private String tablePrefix = "x_";
-    
     private String logicDeleteField = "deleted";
     
     private String logicDeleteValue = "true";
