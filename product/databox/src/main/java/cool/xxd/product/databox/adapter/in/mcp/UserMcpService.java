@@ -7,6 +7,7 @@ import cool.xxd.product.databox.application.dto.response.UserResponse;
 import cool.xxd.service.user.application.service.UserService;
 import cool.xxd.service.user.domain.command.LoginCommand;
 import cool.xxd.service.user.domain.command.RegisterCommand;
+import cool.xxd.service.user.domain.enums.RegisterType;
 import cool.xxd.service.user.domain.service.UserDomainService;
 import cool.xxd.service.user.domain.valueobject.Token;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class UserMcpService {
     public Long register(RegisterRequest registerRequest) {
         log.info("register request: {}", registerRequest);
         var registerCommand = new RegisterCommand();
+        registerCommand.setRegisterType(RegisterType.USERNAME);
         registerCommand.setUsername(registerRequest.getUsername());
         registerCommand.setPassword(registerRequest.getPassword());
         registerCommand.setConfirmPassword(registerRequest.getConfirmPassword());

@@ -78,7 +78,7 @@ public class QuestionServiceImpl implements QuestionService {
             // 加入到倒排索引中
             for (var idiom : idioms) {
                 // 使用 computeIfAbsent，避免两次查找
-                idiomIndexMap.computeIfAbsent(idiom, _ -> new ArrayList<>()).add(needIndexQuestion.getId());
+                idiomIndexMap.computeIfAbsent(idiom, c -> new ArrayList<>()).add(needIndexQuestion.getId());
             }
         }
         var words = idiomIndexMap.keySet();

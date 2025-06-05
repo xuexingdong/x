@@ -11,5 +11,5 @@ import lombok.EqualsAndHashCode;
 public class UserDO extends XBaseDO {
     private String username;
     private String password;
-    private Integer userStatus;
+    private String userStatus;
 }

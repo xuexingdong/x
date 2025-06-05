@@ -10,6 +10,8 @@ import cool.xxd.service.user.domain.command.RegisterCommand;
 import cool.xxd.service.user.domain.factory.UserFactory;
 import cool.xxd.service.user.domain.repository.UserRepository;
 import cool.xxd.service.user.domain.service.UserDomainService;
+import cool.xxd.service.user.domain.strategy.RegisterStrategy;
+import cool.xxd.service.user.domain.strategy.RegisterStrategyManager;
 import cool.xxd.service.user.domain.valueobject.Token;
 import cool.xxd.service.user.infra.config.JwtConfig;
 import io.jsonwebtoken.Claims;
@@ -29,6 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserDomainServiceImpl implements UserDomainService {
 
+    private final RegisterStrategyManager registerStrategyManager;
     private final LockTemplate lockTemplate;
     private final UserRepository userRepository;
     private final UserFactory userFactory;
@@ -37,11 +40,14 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     @Override
     public Long register(RegisterCommand registerCommand) {
+        var strategy = registerStrategyManager.getStrategy(registerCommand.getRegisterType());
+        strategy.validateRegisterCommand(registerCommand);
         validateConfirmPassword(registerCommand);
         var lockKey = CacheKeys.ADD_USER + registerCommand.getUsername();
         return lockTemplate.execute(lockKey, () -> {
+            strategy.checkUniqueness(registerCommand);
             userRepository.findByUsername(registerCommand.getUsername())
-                    .ifPresent(_ -> {
+                    .ifPresent(user -> {
                         throw new BusinessException("用户名已存在");
                     });
             var encodedPassword = passwordEncoder.encode(registerCommand.getPassword());
