@@ -1,5 +1,9 @@
 package cool.xxd.service.user.domain.strategy;
 
+import cool.xxd.service.user.domain.aggregate.User;
+import cool.xxd.service.user.domain.command.RegisterCommand;
+import cool.xxd.service.user.domain.enums.RegisterType;
+
 // 注册策略接口
 public interface RegisterStrategy {
 
