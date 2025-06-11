@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Base64;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,6 +32,7 @@ import java.util.Optional;
 public class UserDomainServiceImpl implements UserDomainService {
 
     private final RegisterStrategyManager registerStrategyManager;
+    private final LoginStrategyManager loginStrategyManager;
     private final LockTemplate lockTemplate;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
