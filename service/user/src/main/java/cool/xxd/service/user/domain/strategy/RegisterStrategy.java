@@ -17,6 +17,8 @@ public interface RegisterStrategy {
      */
     void validateRegisterCommand(RegisterCommand registerCommand);
 
+    String getLockKey(RegisterCommand registerCommand);
+
     /**
      * 检查唯一性（用户名/邮箱/手机号是否已存在）
      */
@@ -31,4 +33,5 @@ public interface RegisterStrategy {
      * 注册后处理（发送验证码/邮件等）
      */
     void postRegister(User user, RegisterCommand registerCommand);
+
 }

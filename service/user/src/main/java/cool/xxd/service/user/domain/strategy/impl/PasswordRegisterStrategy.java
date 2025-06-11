@@ -1,6 +1,7 @@
 package cool.xxd.service.user.domain.strategy.impl;
 
 import cool.xxd.infra.exceptions.BusinessException;
+import cool.xxd.service.user.application.constants.CacheKeys;
 import cool.xxd.service.user.domain.aggregate.User;
 import cool.xxd.service.user.domain.command.RegisterCommand;
 import cool.xxd.service.user.domain.enums.RegisterType;
@@ -63,6 +64,11 @@ public class PasswordRegisterStrategy implements RegisterStrategy {
     }
 
     @Override
+    public String getLockKey(RegisterCommand registerCommand) {
+        return CacheKeys.ADD_USER + registerCommand.getUsername();
+    }
+
+    @Override
     public void checkUniqueness(RegisterCommand registerCommand) {
         // 检查用户名是否已存在
         userRepository.findByUsername(registerCommand.getUsername())
@@ -75,15 +81,15 @@ public class PasswordRegisterStrategy implements RegisterStrategy {
     public Long executeRegister(RegisterCommand registerCommand) {
         // 对密码进行加密
         String encodedPassword = passwordEncoder.encode(registerCommand.getPassword());
-        
+
         // 创建用户实体
         User user = userFactory.create(registerCommand.getUsername(), encodedPassword);
-        
+
         // 保存用户
         userRepository.save(user);
-        
+
         log.info("用户注册成功: username={}, userId={}", registerCommand.getUsername(), user.getId());
-        
+
         return user.getId();
     }
 
