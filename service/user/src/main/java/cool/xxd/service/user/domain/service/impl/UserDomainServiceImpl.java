@@ -1,7 +1,6 @@
 package cool.xxd.service.user.domain.service.impl;
 
 import cool.xxd.infra.X;
-import cool.xxd.infra.exceptions.BusinessException;
 import cool.xxd.infra.lock.LockTemplate;
 import cool.xxd.service.user.application.constants.CacheKeys;
 import cool.xxd.service.user.domain.aggregate.User;
@@ -9,7 +8,9 @@ import cool.xxd.service.user.domain.command.LoginCommand;
 import cool.xxd.service.user.domain.command.RegisterCommand;
 import cool.xxd.service.user.domain.repository.UserRepository;
 import cool.xxd.service.user.domain.service.UserDomainService;
+import cool.xxd.service.user.domain.strategy.LoginStrategyManager;
 import cool.xxd.service.user.domain.strategy.RegisterStrategyManager;
+import cool.xxd.service.user.domain.valueobject.LoginResult;
 import cool.xxd.service.user.domain.valueobject.Token;
 import cool.xxd.service.user.infra.config.JwtConfig;
 import io.jsonwebtoken.Claims;
@@ -23,8 +24,6 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Base64;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,8 +33,6 @@ public class UserDomainServiceImpl implements UserDomainService {
     private final RegisterStrategyManager registerStrategyManager;
     private final LoginStrategyManager loginStrategyManager;
     private final LockTemplate lockTemplate;
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtConfig jwtConfig;
 
     @Override
@@ -51,11 +48,8 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     @Override
     public Token login(LoginCommand loginCommand) {
-        var user = userRepository.findByUsername(loginCommand.getUsername())
-                .orElseThrow(() -> new BusinessException("用户不存在"));
-        if (!passwordEncoder.matches(loginCommand.getPassword(), user.getPassword())) {
-            throw new BusinessException("密码错误");
-        }
+        var strategy = loginStrategyManager.getStrategy(loginCommand.getLoginType());
+        var user = strategy.executeLogin(loginCommand);
         var token = generateToken(user);
         X.cache.save(CacheKeys.USER + user.getUsername(), user, jwtConfig.getExpiration());
         return new Token(token);
