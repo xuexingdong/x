@@ -49,14 +49,19 @@ public class MerchantRepositoryImpl implements MerchantRepository {
         if (ids.isEmpty()) {
             return List.of();
         }
-        var merchantDOList = merchantMapper.selectBatchIds(ids);
+        var merchantDOList = merchantMapper.selectByIds(ids);
         return MerchantConverter.INSTANCE.do2domain(merchantDOList);
     }
 
     @Override
-    public Optional<Merchant> findByAppidAndMchid(String appid, String mchid) {
+    public List<Merchant> findAll() {
+        var merchantDOList = merchantMapper.selectList(null);
+        return MerchantConverter.INSTANCE.do2domain(merchantDOList);
+    }
+
+    @Override
+    public Optional<Merchant> findByMchid(String mchid) {
         var queryWrapper = Wrappers.lambdaQuery(MerchantDO.class);
-        queryWrapper.eq(MerchantDO::getAppid, appid);
         queryWrapper.eq(MerchantDO::getMchid, mchid);
         var merchantDO = merchantMapper.selectOne(queryWrapper);
         var merchant = MerchantConverter.INSTANCE.do2domain(merchantDO);

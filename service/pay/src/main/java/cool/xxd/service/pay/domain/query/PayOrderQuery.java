@@ -8,6 +8,8 @@ import java.util.List;
 
 @Data
 public class PayOrderQuery {
+    // 商户号 必填
+    private String mchid;
     private String appid;
     private List<PayStatusEnum> payStatusList;
     private LocalDateTime fromTimeExpire;

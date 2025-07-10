@@ -104,8 +104,8 @@ CREATE INDEX IF NOT EXISTS idx_update_time ON x_user (update_time);
 CREATE TABLE IF NOT EXISTS x_pay_pay_order
 (
     id                       BIGINT PRIMARY KEY,
-    appid                    VARCHAR(255)   NOT NULL,
     mchid                    VARCHAR(255)   NOT NULL,
+    appid                    VARCHAR(255)   NOT NULL,
     pay_order_no             VARCHAR(255)   NOT NULL,
     out_trade_no             VARCHAR(255)   NOT NULL,
     total_amount             DECIMAL(20, 2) NOT NULL,
@@ -132,8 +132,8 @@ CREATE TABLE IF NOT EXISTS x_pay_pay_order
     create_time              TIMESTAMP      NOT NULL,
     update_time              TIMESTAMP      NOT NULL,
     deleted                  Boolean        NOT NULL,
-    INDEX                    idx_appid(appid),
     INDEX                    idx_mchid(mchid),
+    INDEX                    idx_appid(appid),
     INDEX                    idx_pay_order_no(pay_order_no),
     INDEX                    idx_out_trade_no(out_trade_no),
     INDEX                    idx_trade_time(trade_time),
@@ -147,8 +147,8 @@ CREATE INDEX IF NOT EXISTS idx_update_time ON x_user (update_time);
 CREATE TABLE IF NOT EXISTS x_pay_refund_order
 (
     id                 BIGINT PRIMARY KEY,
-    appid              VARCHAR(255)   NOT NULL,
     mchid              VARCHAR(255)   NOT NULL,
+    appid              VARCHAR(255)   NOT NULL,
     pay_order_no       VARCHAR(255)   NOT NULL,
     out_trade_no       VARCHAR(255)   NOT NULL,
     refund_order_no    VARCHAR(255)   NOT NULL,
@@ -167,8 +167,8 @@ CREATE TABLE IF NOT EXISTS x_pay_refund_order
     create_time        TIMESTAMP      NOT NULL,
     update_time        TIMESTAMP      NOT NULL,
     deleted            Boolean        NOT NULL,
-    INDEX              idx_appid(appid),
     INDEX              idx_mchid(mchid),
+    INDEX              idx_appid(appid),
     INDEX              idx_pay_order_no(pay_order_no),
     INDEX              idx_out_trade_no(out_trade_no),
     INDEX              idx_refund_order_no(refund_order_no),
@@ -180,8 +180,8 @@ CREATE TABLE IF NOT EXISTS x_pay_refund_order
 CREATE TABLE IF NOT EXISTS x_pay_order_log
 (
     id              BIGINT PRIMARY KEY,
-    appid           VARCHAR(255),
     mchid           VARCHAR(255),
+    appid           VARCHAR(255),
     pay_order_no    VARCHAR(255),
     refund_order_no VARCHAR(255),
     req             TEXT,

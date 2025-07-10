@@ -3,10 +3,7 @@ package cool.xxd.service.pay.domain.strategy.alipay.api;
 import com.alibaba.fastjson2.JSON;
 import cool.xxd.infra.enums.CommonEnum;
 import cool.xxd.infra.exceptions.BusinessException;
-import cool.xxd.service.pay.domain.aggregate.App;
-import cool.xxd.service.pay.domain.aggregate.MerchantPayChannel;
-import cool.xxd.service.pay.domain.aggregate.PayOrder;
-import cool.xxd.service.pay.domain.aggregate.RefundOrder;
+import cool.xxd.service.pay.domain.aggregate.*;
 import cool.xxd.service.pay.domain.domainservice.OrderLogDomainService;
 import cool.xxd.service.pay.domain.enums.PayStatusEnum;
 import cool.xxd.service.pay.domain.enums.RefundStatusEnum;
@@ -41,18 +38,18 @@ public class AlipayChannelStrategy implements PayChannelStrategy {
     private final OrderLogDomainService orderLogDomainService;
 
     @Override
-    public PayResult pay(App app, MerchantPayChannel merchantPayChannel, PayOrder payOrder) {
+    public PayResult pay(MerchantPayChannel merchantPayChannel, PayOrder payOrder) {
         var alipayChannelConfig = JSON.parseObject(merchantPayChannel.getConfig(), AlipayChannelConfig.class);
         switch (payOrder.getTransMode()) {
             case PASSIVE_SCAN -> {
-                var alipayPayRequest = createAlipayPayRequest(app, payOrder);
+                var alipayPayRequest = createAlipayPayRequest(payOrder, alipayChannelConfig);
                 var logId = orderLogDomainService.init(payOrder, JSON.toJSONString(alipayPayRequest));
                 var alipayPayResponse = alipayApi.pay(alipayChannelConfig, alipayPayRequest);
                 orderLogDomainService.updateResp(logId, JSON.toJSONString(alipayPayResponse));
                 return toPayResult(alipayPayResponse);
             }
             case JSAPI -> {
-                var alipayCreateRequest = createAlipayCreateRequest(app, payOrder);
+                var alipayCreateRequest = createAlipayCreateRequest(payOrder, alipayChannelConfig);
                 var logId = orderLogDomainService.init(payOrder, JSON.toJSONString(alipayCreateRequest));
                 var alipayCreateResponse = alipayApi.create(alipayChannelConfig, alipayCreateRequest);
                 orderLogDomainService.updateResp(logId, JSON.toJSONString(alipayCreateResponse));
@@ -62,13 +59,12 @@ public class AlipayChannelStrategy implements PayChannelStrategy {
         }
     }
 
-    private AlipayPayRequest createAlipayPayRequest(App app, PayOrder payOrder) {
-        var config = app.getConfig();
+    private AlipayPayRequest createAlipayPayRequest(PayOrder payOrder, AlipayChannelConfig alipayChannelConfig) {
         var alipayPayRequest = new AlipayPayRequest();
         alipayPayRequest.setOutTradeNo(payOrder.getPayOrderNo());
         alipayPayRequest.setTotalAmount(payOrder.getTotalAmount().toPlainString());
         alipayPayRequest.setSubject(payOrder.getSubject());
-        alipayPayRequest.setNotifyUrl(config.get("alipay_notify_url"));
+        alipayPayRequest.setNotifyUrl(alipayChannelConfig.getAlipay_notify_url());
         alipayPayRequest.setProductCode(ProductCodeEnum.FACE_TO_FACE_PAYMENT.getCode());
         alipayPayRequest.setAuthCode(payOrder.getAuthCode());
         alipayPayRequest.setScene(SceneEnum.BAR_CODE.getCode());
@@ -83,13 +79,12 @@ public class AlipayChannelStrategy implements PayChannelStrategy {
         return payResult;
     }
 
-    private AlipayCreateRequest createAlipayCreateRequest(App app, PayOrder payOrder) {
-        var config = app.getConfig();
+    private AlipayCreateRequest createAlipayCreateRequest(PayOrder payOrder, AlipayChannelConfig alipayChannelConfig) {
         var alipayCreateRequest = new AlipayCreateRequest();
         alipayCreateRequest.setOutTradeNo(payOrder.getPayOrderNo());
         alipayCreateRequest.setTotalAmount(payOrder.getTotalAmount().toPlainString());
         alipayCreateRequest.setSubject(payOrder.getSubject());
-        alipayCreateRequest.setNotifyUrl(config.get("alipay_notify_url"));
+        alipayCreateRequest.setNotifyUrl(alipayChannelConfig.getAlipay_notify_url());
         alipayCreateRequest.setProductCode(ProductCodeEnum.JSAPI_PAY.getCode());
         alipayCreateRequest.setOpAppId(payOrder.getSubAppid());
         alipayCreateRequest.setBuyerId(payOrder.getSubOpenid());
@@ -108,7 +103,7 @@ public class AlipayChannelStrategy implements PayChannelStrategy {
     }
 
     @Override
-    public PayResult query(App app, MerchantPayChannel merchantPayChannel, PayOrder payOrder) {
+    public PayResult query(MerchantPayChannel merchantPayChannel, PayOrder payOrder) {
         var alipayChannelConfig = JSON.parseObject(merchantPayChannel.getConfig(), AlipayChannelConfig.class);
         var alipayQueryRequest = new AlipayQueryRequest();
         alipayQueryRequest.setOutTradeNo(payOrder.getPayOrderNo());
@@ -142,7 +137,7 @@ public class AlipayChannelStrategy implements PayChannelStrategy {
     }
 
     @Override
-    public void close(App app, MerchantPayChannel merchantPayChannel, PayOrder payOrder) {
+    public void close(MerchantPayChannel merchantPayChannel, PayOrder payOrder) {
         var alipayChannelConfig = JSON.parseObject(merchantPayChannel.getConfig(), AlipayChannelConfig.class);
         var closeRequest = new AlipayCloseRequest();
         closeRequest.setOutTradeNo(payOrder.getPayOrderNo());
@@ -150,7 +145,7 @@ public class AlipayChannelStrategy implements PayChannelStrategy {
     }
 
     @Override
-    public RefundResult refund(App app, MerchantPayChannel merchantPayChannel, PayOrder payOrder, RefundOrder refundOrder) {
+    public RefundResult refund(MerchantPayChannel merchantPayChannel, PayOrder payOrder, RefundOrder refundOrder) {
         var alipayChannelConfig = JSON.parseObject(merchantPayChannel.getConfig(), AlipayChannelConfig.class);
         var refundRequest = new AlipayRefundRequest();
         refundRequest.setRefundAmount(refundOrder.getRefundAmount().toPlainString());
@@ -178,7 +173,7 @@ public class AlipayChannelStrategy implements PayChannelStrategy {
     }
 
     @Override
-    public RefundResult queryRefund(App app, MerchantPayChannel merchantPayChannel, RefundOrder refundOrder) {
+    public RefundResult queryRefund(MerchantPayChannel merchantPayChannel, RefundOrder refundOrder) {
         var alipayChannelConfig = JSON.parseObject(merchantPayChannel.getConfig(), AlipayChannelConfig.class);
         var refundQueryRequest = new AlipayRefundQueryRequest();
         refundQueryRequest.setOutRequestNo(refundOrder.getRefundOrderNo());

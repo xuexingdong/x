@@ -1,6 +1,9 @@
 package cool.xxd.service.pay.application.repository;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cool.xxd.infra.page.PageRequest;
+import cool.xxd.infra.page.PageResult;
 import cool.xxd.service.pay.application.converter.PayOrderConverter;
 import cool.xxd.service.pay.application.mapper.PayOrderMapper;
 import cool.xxd.service.pay.application.model.PayOrderDO;
@@ -43,7 +46,8 @@ public class PayOrderRepositoryImpl implements PayOrderRepository {
     @Override
     public void updateRefundedAmount(PayOrder payOrder) {
         var updateWrapper = Wrappers.lambdaUpdate(PayOrderDO.class);
-        updateWrapper.eq(PayOrderDO::getId, payOrder.getId())
+        updateWrapper.eq(PayOrderDO::getMchid, payOrder.getMchid())
+                .eq(PayOrderDO::getId, payOrder.getId())
                 .set(PayOrderDO::getRefundedAmount, payOrder.getRefundedAmount());
         payOrderMapper.update(updateWrapper);
     }
@@ -51,7 +55,8 @@ public class PayOrderRepositoryImpl implements PayOrderRepository {
     @Override
     public boolean updatePayResult(PayOrder payOrder, PayStatusEnum fromPayStatus) {
         var updateWrapper = Wrappers.lambdaUpdate(PayOrderDO.class);
-        updateWrapper.eq(PayOrderDO::getId, payOrder.getId())
+        updateWrapper.eq(PayOrderDO::getMchid, payOrder.getMchid())
+                .eq(PayOrderDO::getId, payOrder.getId())
                 .eq(PayOrderDO::getPayStatus, fromPayStatus.getCode())
                 .set(payOrder.getThirdTradeNo() != null, PayOrderDO::getThirdTradeNo, payOrder.getThirdTradeNo())
                 .set(payOrder.getQrCode() != null, PayOrderDO::getQrCode, payOrder.getQrCode())
@@ -60,6 +65,16 @@ public class PayOrderRepositoryImpl implements PayOrderRepository {
                 .set(payOrder.getPollingStartTime() != null, PayOrderDO::getPollingStartTime, payOrder.getPollingStartTime())
                 .set(payOrder.getPayTime() != null, PayOrderDO::getPayTime, payOrder.getPayTime());
         return payOrderMapper.update(updateWrapper) == 1;
+    }
+
+    @Override
+    public Optional<PayOrder> findById(String mchid, Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<PayOrder> findByPayOrderNo(String mchid, String payOrderNo) {
+        return Optional.empty();
     }
 
     @Override
@@ -74,7 +89,7 @@ public class PayOrderRepositoryImpl implements PayOrderRepository {
         if (ids.isEmpty()) {
             return List.of();
         }
-        var payOrderDOList = payOrderMapper.selectBatchIds(ids);
+        var payOrderDOList = payOrderMapper.selectByIds(ids);
         return PayOrderConverter.INSTANCE.do2domain(payOrderDOList);
     }
 
@@ -88,9 +103,9 @@ public class PayOrderRepositoryImpl implements PayOrderRepository {
     }
 
     @Override
-    public Optional<PayOrder> findByOutTradeNo(String appid, String outTradeNo) {
+    public Optional<PayOrder> findByOutTradeNo(String mchid, String outTradeNo) {
         var queryWrapper = Wrappers.lambdaQuery(PayOrderDO.class);
-        queryWrapper.eq(PayOrderDO::getAppid, appid);
+        queryWrapper.eq(PayOrderDO::getMchid, mchid);
         queryWrapper.eq(PayOrderDO::getOutTradeNo, outTradeNo);
         var payOrderDO = payOrderMapper.selectOne(queryWrapper);
         var payOrder = PayOrderConverter.INSTANCE.do2domain(payOrderDO);
@@ -98,20 +113,35 @@ public class PayOrderRepositoryImpl implements PayOrderRepository {
     }
 
     @Override
-    public Optional<PayOrder> findByPayOrderNoAndOutTradeNo(String appid, String payOrderNo, String outTradeNo) {
+    public Optional<PayOrder> findByPayOrderNoAndOutTradeNo(String mchid, String payOrderNo, String outTradeNo) {
         if (StringUtils.isNotEmpty(payOrderNo)) {
             return findByPayOrderNo(payOrderNo);
         }
         if (StringUtils.isNotEmpty(outTradeNo)) {
-            return findByOutTradeNo(appid, outTradeNo);
+            return findByOutTradeNo(mchid, outTradeNo);
         }
         return Optional.empty();
     }
 
     @Override
     public List<PayOrder> query(PayOrderQuery payOrderQuery) {
+        var queryWrapper = buildQuery(payOrderQuery);
+        var payOrderDOList = payOrderMapper.selectList(queryWrapper);
+        return PayOrderConverter.INSTANCE.do2domain(payOrderDOList);
+    }
+
+    @Override
+    public PageResult<PayOrder> query(PayOrderQuery payOrderQuery, PageRequest pageRequest) {
+        var queryWrapper = buildQuery(payOrderQuery);
+        var payOrderDOIPage = payOrderMapper.selectPage(pageRequest.toIPage(), queryWrapper);
+        var payOrders = PayOrderConverter.INSTANCE.do2domain(payOrderDOIPage.getRecords());
+        return PageResult.of(payOrders, payOrderDOIPage.getTotal());
+    }
+
+    private static LambdaQueryWrapper<PayOrderDO> buildQuery(PayOrderQuery payOrderQuery) {
         var queryWrapper = Wrappers.lambdaQuery(PayOrderDO.class);
-        if (payOrderQuery.getAppid() != null) {
+        queryWrapper.eq(PayOrderDO::getMchid, payOrderQuery.getMchid());
+        if (StringUtils.isNotBlank(payOrderQuery.getAppid())) {
             queryWrapper.eq(PayOrderDO::getAppid, payOrderQuery.getAppid());
         }
         if (payOrderQuery.getPayStatusList() != null && !payOrderQuery.getPayStatusList().isEmpty()) {
@@ -130,7 +160,6 @@ public class PayOrderRepositoryImpl implements PayOrderRepository {
         if (payOrderQuery.getToPollingStartTime() != null) {
             queryWrapper.le(PayOrderDO::getPollingStartTime, payOrderQuery.getToPollingStartTime());
         }
-        var payOrderDOList = payOrderMapper.selectList(queryWrapper);
-        return PayOrderConverter.INSTANCE.do2domain(payOrderDOList);
+        return queryWrapper;
     }
 }

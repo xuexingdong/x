@@ -52,6 +52,16 @@ public class RefundOrderRepositoryImpl implements RefundOrderRepository {
     }
 
     @Override
+    public Optional<RefundOrder> findByRefundOrderId(String mchid, Long refundOrderId) {
+        var queryWrapper = Wrappers.lambdaQuery(RefundOrderDO.class);
+        queryWrapper.eq(RefundOrderDO::getMchid, mchid);
+        queryWrapper.eq(RefundOrderDO::getId, refundOrderId);
+        var refundOrderDO = refundOrderMapper.selectOne(queryWrapper);
+        var refundOrder = RefundOrderConverter.INSTANCE.do2domain(refundOrderDO);
+        return Optional.ofNullable(refundOrder);
+    }
+
+    @Override
     public Optional<RefundOrder> findByRefundOrderNo(String refundOrderNo) {
         var queryWrapper = Wrappers.lambdaQuery(RefundOrderDO.class);
         queryWrapper.eq(RefundOrderDO::getRefundOrderNo, refundOrderNo);
@@ -72,14 +82,14 @@ public class RefundOrderRepositoryImpl implements RefundOrderRepository {
         if (ids.isEmpty()) {
             return List.of();
         }
-        var refundOrderDOList = refundOrderMapper.selectBatchIds(ids);
+        var refundOrderDOList = refundOrderMapper.selectByIds(ids);
         return RefundOrderConverter.INSTANCE.do2domain(refundOrderDOList);
     }
 
     @Override
-    public Optional<RefundOrder> findByAppidAndOutRefundNo(String appid, String outRefundNo) {
+    public Optional<RefundOrder> findByMchidAndOutRefundNo(String mchid, String outRefundNo) {
         var queryWrapper = Wrappers.lambdaQuery(RefundOrderDO.class);
-        queryWrapper.eq(RefundOrderDO::getAppid, appid);
+        queryWrapper.eq(RefundOrderDO::getAppid, mchid);
         queryWrapper.eq(RefundOrderDO::getOutRefundNo, outRefundNo);
         var refundOrderDO = refundOrderMapper.selectOne(queryWrapper);
         var refundOrder = RefundOrderConverter.INSTANCE.do2domain(refundOrderDO);

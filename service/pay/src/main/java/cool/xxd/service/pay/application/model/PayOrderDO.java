@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Data
 @TableName("hckj_pc_pay_order")
 public class PayOrderDO extends XBaseDO {
-    private String appid;
     private String mchid;
+    private String appid;
     private String payOrderNo;
     private String outTradeNo;
     private BigDecimal totalAmount;

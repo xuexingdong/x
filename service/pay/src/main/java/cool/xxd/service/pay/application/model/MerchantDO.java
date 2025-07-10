@@ -7,10 +7,9 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("hckj_pc_merchant")
+@TableName("pay_merchant")
 public class MerchantDO extends XBaseDO {
     private String appid;
     private String mchid;
     private String name;
-    private String outMchid;
 }

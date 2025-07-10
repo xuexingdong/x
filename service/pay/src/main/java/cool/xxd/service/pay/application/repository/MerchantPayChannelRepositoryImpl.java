@@ -49,7 +49,7 @@ public class MerchantPayChannelRepositoryImpl implements MerchantPayChannelRepos
         if (ids.isEmpty()) {
             return List.of();
         }
-        var merchantPayChannelDOList = merchantPayChannelMapper.selectBatchIds(ids);
+        var merchantPayChannelDOList = merchantPayChannelMapper.selectByIds(ids);
         return MerchantPayChannelConverter.INSTANCE.do2domain(merchantPayChannelDOList);
     }
 

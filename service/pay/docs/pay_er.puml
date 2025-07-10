@@ -31,7 +31,7 @@ note top of PayChannel
     中介服务提供商，
     将支付方式与资金池连接，不存储资金，
     处理支付交易的技术细节。
-    如富友/新大陆
+    如富友/新大陆/嘉联
 end note
 
 entity PayChannelPayType as "支付渠道支持的支付方式" {

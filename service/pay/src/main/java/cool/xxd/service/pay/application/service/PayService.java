@@ -10,9 +10,9 @@ public interface PayService {
 
     void syncPayStatus();
 
-    void updatePayResult(String payOrderNo, PayResult payResult);
+    void updatePayResult(String mchid, String payOrderNo, PayResult payResult);
 
-    void updatePayResult(Long payOrderId, PayResult payResult);
+    void updatePayResult(String mchid, Long payOrderId, PayResult payResult);
 
     void close(CloseCommand closeCommand);
 

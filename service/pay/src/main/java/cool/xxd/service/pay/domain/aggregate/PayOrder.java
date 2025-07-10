@@ -1,7 +1,9 @@
 package cool.xxd.service.pay.domain.aggregate;
 
+import cool.xxd.service.pay.domain.constants.Constants;
 import cool.xxd.service.pay.domain.enums.PayStatusEnum;
 import cool.xxd.service.pay.domain.enums.TransModeEnum;
+import cool.xxd.service.pay.domain.exceptions.PayException;
 import cool.xxd.service.pay.domain.valueobject.PayResult;
 import lombok.Data;
 
@@ -11,12 +13,9 @@ import java.time.LocalDateTime;
 @Data
 public class PayOrder {
     private Long id;
-    private String appid;
     private String mchid;
+    private String appid;
     private String payOrderNo;
-    /**
-     * 注意退订单的outTradeNo是正订单的outTradeNo
-     */
     private String outTradeNo;
     private BigDecimal totalAmount;
     private BigDecimal refundedAmount;
@@ -76,7 +75,7 @@ public class PayOrder {
 
     public void fail() {
         if (payStatus != PayStatusEnum.PAYING) {
-            throw new BusinessException("支付状态错误");
+            throw new PayException("支付状态错误");
         }
         payStatus = PayStatusEnum.FAILED;
     }
@@ -91,7 +90,7 @@ public class PayOrder {
 
     public void startPay() {
         if (payStatus != PayStatusEnum.UNPAID) {
-            throw new BusinessException("支付状态错误");
+            throw new PayException("支付状态错误");
         }
         payStatus = PayStatusEnum.PAYING;
         pollingStartTime = LocalDateTime.now().plusSeconds(Constants.POLLING_DELAY_SECONDS);

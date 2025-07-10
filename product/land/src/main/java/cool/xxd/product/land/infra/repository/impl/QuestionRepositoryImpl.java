@@ -86,7 +86,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
         var queryWrapper = Wrappers.lambdaQuery(QuestionDO.class);
         queryWrapper.eq(QuestionDO::getIndexStatus, questionQuery.getIndexStatus().getCode());
         var questionDOIPage = questionMapper.selectPage(pageRequest.toIPage(), queryWrapper);
-        var memberGrowthValueRecordList = QuestionConverter.INSTANCE.toSourceList(questionDOIPage.getRecords());
-        return PageResult.of(memberGrowthValueRecordList, questionDOIPage.getTotal());
+        var questions = QuestionConverter.INSTANCE.toSourceList(questionDOIPage.getRecords());
+        return PageResult.of(questions, questionDOIPage.getTotal());
     }
 }

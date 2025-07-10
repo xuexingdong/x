@@ -1,8 +1,12 @@
-package cool.xxd.product.msw.application.dto.service;
+package cool.xxd.product.msw.application.service;
 
 import cool.xxd.product.msw.domain.aggregate.Item;
 import cool.xxd.product.msw.domain.aggregate.Mob;
 import cool.xxd.product.msw.domain.aggregate.MobItem;
+import cool.xxd.product.msw.domain.command.AddMobCommand;
+import cool.xxd.product.msw.domain.command.AddMobItemCommand;
+import cool.xxd.product.msw.domain.factory.MobFactory;
+import cool.xxd.product.msw.domain.factory.MobItemFactory;
 import cool.xxd.product.msw.domain.query.MobQuery;
 import cool.xxd.product.msw.domain.repository.ItemRepository;
 import cool.xxd.product.msw.domain.repository.MobItemRepository;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -19,9 +24,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MobService {
 
+    private final MobFactory mobFactory;
+    private final MobItemFactory mobItemFactory;
     private final MobRepository mobRepository;
     private final MobItemRepository mobItemRepository;
     private final ItemRepository itemRepository;
+
+    public void addMobs(List<AddMobCommand> addMobCommands) {
+        var mobs = mobFactory.createMob(addMobCommands);
+        mobRepository.saveAll(mobs);
+    }
 
     public List<Mob> queryMobs(MobQuery mobQuery) {
         return mobRepository.query(mobQuery);
@@ -49,5 +61,33 @@ public class MobService {
                         Mob::getCode,
                         mob -> mobItemsMap.getOrDefault(mob.getCode(), List.of())
                 ));
+    }
+
+    public void addMobItems(List<AddMobItemCommand> addMobItemCommands) {
+        var mobNames = addMobItemCommands.stream()
+                .map(AddMobItemCommand::getMobName)
+                .distinct()
+                .toList();
+        var itemNames = addMobItemCommands.stream()
+                .flatMap(addMobItemCommand -> addMobItemCommand.getItemName().stream())
+                .distinct().toList();
+        var mobNameMap = mobRepository.findByNames(mobNames)
+                .stream().collect(Collectors.toMap(Mob::getName, Function.identity()));
+        var itemNameMap = itemRepository.findByNames(itemNames)
+                .stream().collect(Collectors.toMap(Item::getName, Function.identity()));
+        for (AddMobItemCommand addMobItemCommand : addMobItemCommands) {
+            var mob = mobNameMap.get(addMobItemCommand.getMobName());
+            var itemCodes = addMobItemCommand.getItemName().stream()
+                    .map(itemName -> {
+                        if (itemNameMap.containsKey(itemName)) {
+                            return itemNameMap.get(itemName).getCode();
+                        }
+                        return null;
+                    }).filter(Objects::nonNull).toList();
+            if (mob != null) {
+                var mobItems = mobItemFactory.createMobItems(mob.getCode(), itemCodes);
+                mobItemRepository.saveAll(mobItems);
+            }
+        }
     }
 }

@@ -1,24 +1,16 @@
 package cool.xxd.service.user.domain.strategy.impl;
 
 import cool.xxd.infra.exceptions.BusinessException;
-import cool.xxd.service.user.application.constants.CacheKeys;
 import cool.xxd.service.user.domain.aggregate.User;
 import cool.xxd.service.user.domain.command.LoginCommand;
-import cool.xxd.service.user.domain.command.RegisterCommand;
 import cool.xxd.service.user.domain.enums.LoginType;
-import cool.xxd.service.user.domain.enums.RegisterType;
-import cool.xxd.service.user.domain.factory.UserFactory;
 import cool.xxd.service.user.domain.repository.UserRepository;
 import cool.xxd.service.user.domain.strategy.LoginStrategy;
-import cool.xxd.service.user.domain.strategy.RegisterStrategy;
 import cool.xxd.service.user.domain.valueobject.LoginResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import java.util.regex.Pattern;
 
 /**
  * 用户名密码注册策略

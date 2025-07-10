@@ -23,9 +23,8 @@ public class FuiouMicropayRequestStrategy extends AbstractFuiouPayTemplate<Micro
 
     @Override
     protected MicropayRequest buildRequest(App app, MerchantPayChannel merchantPayChannel, PayOrder payOrder) {
-        var appConfig = app.getConfig();
         var fuiouPayChannelConfig = JSON.parseObject(merchantPayChannel.getConfig(), FuiouPayChannelConfig.class);
-        var payRequest = new MicropayRequest(appConfig.get("ins_cd"), fuiouPayChannelConfig);
+        var payRequest = new MicropayRequest(fuiouPayChannelConfig.getIns_cd(), fuiouPayChannelConfig);
         PayRequestBuilder.setCommonFields(payRequest, payOrder);
         payRequest.setOrderType(FuiouUtils.getOrderType(payOrder.getPayTypeCode(), payOrder.getTransMode()));
         payRequest.setAuthCode(payOrder.getAuthCode());

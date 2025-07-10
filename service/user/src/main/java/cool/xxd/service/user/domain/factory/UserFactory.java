@@ -13,7 +13,7 @@ public class UserFactory {
         user.setId(X.id.nextId(UserDO.class));
         user.setUsername(username);
         user.setPassword(encodedPassword);
-        user.setUserStatus(UserStatus.ENABLED);
+        user.setUserStatus(UserStatus.ACTIVE);
         return user;
     }
 }

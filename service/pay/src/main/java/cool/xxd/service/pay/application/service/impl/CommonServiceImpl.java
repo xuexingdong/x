@@ -4,7 +4,7 @@ import cool.xxd.infra.exceptions.BusinessException;
 import cool.xxd.service.pay.application.service.CommonService;
 import cool.xxd.service.pay.domain.repository.AppRepository;
 import cool.xxd.service.pay.domain.repository.MerchantRepository;
-import group.hckj.pay.ui.request.BaseRequest;
+import cool.xxd.service.pay.domain.strategy.fuiou.BaseRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public <T extends BaseRequest> void validateRequest(T request) {
-        var app = appRepository.getByAppid(request.getAppid());
+        var app = appRepository.findByAppid(request.getAppid());
         if (app == null) {
             log.error("应用不存在，appid-{}", request.getAppid());
             throw new BusinessException("应用不存在");
         }
         if (request.getMchid() != null) {
-            if (merchantRepository.findByAppidAndMchid(request.getAppid(), request.getMchid()).isEmpty()) {
+            if (merchantRepository.findByMchid(request.getAppid(), request.getMchid()).isEmpty()) {
                 log.error("商户不存在，mchid-{}", request.getMchid());
                 throw new BusinessException("商户不存在");
             }

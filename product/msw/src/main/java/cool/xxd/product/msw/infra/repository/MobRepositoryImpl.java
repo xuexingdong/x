@@ -19,6 +19,12 @@ public class MobRepositoryImpl implements MobRepository {
     private final MobMapper mobMapper;
 
     @Override
+    public void saveAll(List<Mob> mobs) {
+        var mobDOList = MobConverter.INSTANCE.domain2do(mobs);
+        mobMapper.insert(mobDOList);
+    }
+
+    @Override
     public List<Mob> query(MobQuery mobQuery) {
         var queryWrapper = Wrappers.lambdaQuery(MobDO.class)
                 .like(MobDO::getName, mobQuery.getName());
@@ -33,6 +39,17 @@ public class MobRepositoryImpl implements MobRepository {
         }
         var queryWrapper = Wrappers.lambdaQuery(MobDO.class)
                 .in(MobDO::getCode, mobCodes);
+        var mobDOList = mobMapper.selectList(queryWrapper);
+        return MobConverter.INSTANCE.do2domain(mobDOList);
+    }
+
+    @Override
+    public List<Mob> findByNames(List<String> mobNames) {
+        if (mobNames.isEmpty()) {
+            return List.of();
+        }
+        var queryWrapper = Wrappers.lambdaQuery(MobDO.class)
+                .in(MobDO::getName, mobNames);
         var mobDOList = mobMapper.selectList(queryWrapper);
         return MobConverter.INSTANCE.do2domain(mobDOList);
     }

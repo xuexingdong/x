@@ -9,6 +9,7 @@ import cool.xxd.service.pay.domain.repository.AppRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,29 +46,30 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public List<App> findByIds(List<Long> ids) {
+    public List<App> findByIds(Collection<Long> ids) {
         if (ids.isEmpty()) {
             return List.of();
         }
-        var appDOList = appMapper.selectBatchIds(ids);
+        var appDOList = appMapper.selectByIds(ids);
         return AppConverter.INSTANCE.do2domain(appDOList);
     }
 
     @Override
-    public App getByAppid(String appid) {
+    public Optional<App> findByAppid(String mchid, String appid) {
         var queryWrapper = Wrappers.lambdaQuery(AppDO.class);
+        queryWrapper.eq(AppDO::getMchid, mchid);
         queryWrapper.eq(AppDO::getAppid, appid);
         var appDO = appMapper.selectOne(queryWrapper);
-        return AppConverter.INSTANCE.do2domain(appDO);
+        return Optional.ofNullable(AppConverter.INSTANCE.do2domain(appDO));
     }
 
     @Override
-    public List<App> findByAppids(List<String> appids) {
-        if (appids.isEmpty()) {
+    public List<App> findByAppidList(List<String> appidList) {
+        if (appidList.isEmpty()) {
             return List.of();
         }
         var queryWrapper = Wrappers.lambdaQuery(AppDO.class);
-        queryWrapper.in(AppDO::getAppid, appids);
+        queryWrapper.in(AppDO::getAppid, appidList);
         var appDOList = appMapper.selectList(queryWrapper);
         return AppConverter.INSTANCE.do2domain(appDOList);
     }

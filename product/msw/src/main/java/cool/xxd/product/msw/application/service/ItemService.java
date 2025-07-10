@@ -1,8 +1,10 @@
-package cool.xxd.product.msw.application.dto.service;
+package cool.xxd.product.msw.application.service;
 
 import cool.xxd.product.msw.domain.aggregate.Item;
 import cool.xxd.product.msw.domain.aggregate.Mob;
 import cool.xxd.product.msw.domain.aggregate.MobItem;
+import cool.xxd.product.msw.domain.command.AddItemCommand;
+import cool.xxd.product.msw.domain.factory.ItemFactory;
 import cool.xxd.product.msw.domain.query.ItemQuery;
 import cool.xxd.product.msw.domain.repository.ItemRepository;
 import cool.xxd.product.msw.domain.repository.MobItemRepository;
@@ -19,9 +21,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemService {
 
+    private final ItemFactory itemFactory;
+    private final ItemRepository itemRepository;
     private final MobRepository mobRepository;
     private final MobItemRepository mobItemRepository;
-    private final ItemRepository itemRepository;
+
+    public void addItems(List<AddItemCommand> addItemCommands) {
+        var items = itemFactory.createItem(addItemCommands);
+        itemRepository.saveAll(items);
+    }
 
     public List<Item> queryItems(ItemQuery itemQuery) {
         return itemRepository.query(itemQuery);

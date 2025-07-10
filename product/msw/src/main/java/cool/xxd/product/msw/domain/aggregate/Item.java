@@ -8,5 +8,5 @@ public class Item {
     private String code;
     private String name;
     private Integer itemType;
-    private String itmTypeName;
+    private String itemTypeName;
 }

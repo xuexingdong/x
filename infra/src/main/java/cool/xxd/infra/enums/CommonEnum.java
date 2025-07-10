@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-interface CommonEnum<C> {
+public interface CommonEnum<C> {
     C getCode();
 
     /**

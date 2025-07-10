@@ -1,6 +1,5 @@
 package cool.xxd.service.pay.application.service.impl;
 
-import cool.xxd.infra.exceptions.BusinessException;
 import cool.xxd.infra.lock.LockTemplate;
 import cool.xxd.service.pay.application.service.RefundService;
 import cool.xxd.service.pay.domain.aggregate.App;
@@ -10,9 +9,11 @@ import cool.xxd.service.pay.domain.command.RefundCommand;
 import cool.xxd.service.pay.domain.constants.CacheKeys;
 import cool.xxd.service.pay.domain.domainservice.RefundDomainService;
 import cool.xxd.service.pay.domain.enums.RefundStatusEnum;
+import cool.xxd.service.pay.domain.exceptions.PayException;
 import cool.xxd.service.pay.domain.factory.RefundOrderFactory;
 import cool.xxd.service.pay.domain.query.RefundOrderQuery;
 import cool.xxd.service.pay.domain.repository.AppRepository;
+import cool.xxd.service.pay.domain.repository.MerchantRepository;
 import cool.xxd.service.pay.domain.repository.PayOrderRepository;
 import cool.xxd.service.pay.domain.repository.RefundOrderRepository;
 import cool.xxd.service.pay.domain.strategy.PayChannelStrategyFactory;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RefundServiceImpl implements RefundService {
 
+    private final MerchantRepository merchantRepository;
     private final AppRepository appRepository;
     private final PayOrderRepository payOrderRepository;
     private final RefundOrderRepository refundOrderRepository;
@@ -44,18 +46,20 @@ public class RefundServiceImpl implements RefundService {
 
     @Override
     public Long refund(RefundCommand refundCommand) {
-        var app = appRepository.getByAppid(refundCommand.getAppid());
-        var payOrder = payOrderRepository.findByPayOrderNoAndOutTradeNo(refundCommand.getAppid(), refundCommand.getPayOrderNo(), refundCommand.getOutTradeNo()).orElseThrow(() -> new BusinessException("原支付单不存在"));
+        var merchant = merchantRepository.findByMchid(refundCommand.getMchid())
+                .orElseThrow(() -> new PayException("商户不存在"));
+        var payOrder = payOrderRepository.findByPayOrderNoAndOutTradeNo(merchant.getMchid(), refundCommand.getPayOrderNo(), refundCommand.getOutTradeNo())
+                .orElseThrow(() -> new PayException("原支付单不存在"));
         // TODO 这个校验可能要加锁
         validateRefundCommand(refundCommand, payOrder);
-        var refundOrder = refundOrderFactory.create(app, payOrder, refundCommand);
+        var refundOrder = refundOrderFactory.create(payOrder, refundCommand);
         refundOrderRepository.save(refundOrder);
         refundDomainService.startRefund(refundOrder);
         var merchantPayChannel = payChannelStrategyFactory.routePayChannel(refundOrder.getMchid(), refundOrder.getPayTypeCode());
         var payChannelStrategy = payChannelStrategyFactory.getStrategy(refundOrder.getPayChannelCode());
         RefundResult refundResult;
         try {
-            refundResult = payChannelStrategy.refund(app, merchantPayChannel, payOrder, refundOrder);
+            refundResult = payChannelStrategy.refund(merchantPayChannel, payOrder, refundOrder);
         } catch (Exception e) {
             log.error("退款失败, 退款单号-{}", refundOrder.getRefundOrderNo(), e);
             refundDomainService.fail(refundOrder);

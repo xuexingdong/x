@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Data
 public class RefundOrder {
     private Long id;
-    private String appid;
     private String mchid;
+    private String appid;
     private String payOrderNo;
     private String outTradeNo;
     private String refundOrderNo;

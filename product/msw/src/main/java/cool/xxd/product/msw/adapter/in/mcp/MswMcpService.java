@@ -1,11 +1,11 @@
 package cool.xxd.product.msw.adapter.in.mcp;
 
-import cool.xxd.product.msw.application.dto.request.ItemQueryRequest;
-import cool.xxd.product.msw.application.dto.request.MobQueryRequest;
+import cool.xxd.product.msw.application.dto.request.QueryItemRequest;
+import cool.xxd.product.msw.application.dto.request.QueryMobRequest;
 import cool.xxd.product.msw.application.dto.response.ItemQueryResponse;
 import cool.xxd.product.msw.application.dto.response.MobQueryResponse;
-import cool.xxd.product.msw.application.dto.service.ItemService;
-import cool.xxd.product.msw.application.dto.service.MobService;
+import cool.xxd.product.msw.application.service.ItemService;
+import cool.xxd.product.msw.application.service.MobService;
 import cool.xxd.product.msw.domain.query.ItemQuery;
 import cool.xxd.product.msw.domain.query.MobQuery;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +25,9 @@ public class MswMcpService {
     private final ItemService itemService;
 
     @Tool(description = "查询怪物")
-    public List<MobQueryResponse> queryMobs(MobQueryRequest mobQueryRequest) {
+    public List<MobQueryResponse> queryMobs(QueryMobRequest queryMobRequest) {
         var mobQuery = new MobQuery();
-        mobQuery.setName(mobQueryRequest.getName());
+        mobQuery.setName(queryMobRequest.getName());
         var mobs = mobService.queryMobs(mobQuery);
         var mobItemsMap = mobService.matchItems(mobs);
         return mobs.stream()
@@ -40,9 +40,9 @@ public class MswMcpService {
     }
 
     @Tool(description = "查询物品")
-    public List<ItemQueryResponse> queryItems(ItemQueryRequest itemQueryRequest) {
+    public List<ItemQueryResponse> queryItems(QueryItemRequest queryItemRequest) {
         var itemQuery = new ItemQuery();
-        itemQuery.setName(itemQueryRequest.getName());
+        itemQuery.setName(queryItemRequest.getName());
         var items = itemService.queryItems(itemQuery);
         var itemMobsMap = itemService.matchMobs(items);
         return items.stream()

@@ -1,4 +1,4 @@
-package cool.xxd.product.msw.ui.config;
+package cool.xxd.product.msw.adapter.in.http;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

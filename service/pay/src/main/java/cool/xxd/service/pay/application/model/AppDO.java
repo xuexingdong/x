@@ -7,8 +7,9 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("hckj_pc_app")
+@TableName("pay_app")
 public class AppDO extends XBaseDO {
+    private String mchid;
     private String appid;
     // 订单号前缀
     private String orderNoPrefix;

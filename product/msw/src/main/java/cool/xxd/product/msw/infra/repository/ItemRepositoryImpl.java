@@ -19,6 +19,12 @@ public class ItemRepositoryImpl implements ItemRepository {
     private final ItemMapper itemMapper;
 
     @Override
+    public void saveAll(List<Item> items) {
+        var itemDOList = ItemConverter.INSTANCE.domain2do(items);
+        itemMapper.insert(itemDOList);
+    }
+
+    @Override
     public List<Item> query(ItemQuery itemQuery) {
         var queryWrapper = Wrappers.lambdaQuery(ItemDO.class)
                 .like(ItemDO::getName, itemQuery.getName());
@@ -33,6 +39,17 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
         var queryWrapper = Wrappers.lambdaQuery(ItemDO.class)
                 .in(ItemDO::getCode, itemCodes);
+        var itemDOList = itemMapper.selectList(queryWrapper);
+        return ItemConverter.INSTANCE.do2domain(itemDOList);
+    }
+
+    @Override
+    public List<Item> findByNames(List<String> itemNames) {
+        if (itemNames.isEmpty()) {
+            return List.of();
+        }
+        var queryWrapper = Wrappers.lambdaQuery(ItemDO.class)
+                .in(ItemDO::getName, itemNames);
         var itemDOList = itemMapper.selectList(queryWrapper);
         return ItemConverter.INSTANCE.do2domain(itemDOList);
     }

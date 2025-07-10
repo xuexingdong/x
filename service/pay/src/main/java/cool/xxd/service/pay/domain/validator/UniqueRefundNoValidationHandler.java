@@ -22,7 +22,7 @@ public class UniqueRefundNoValidationHandler implements ValidationHandler {
     @Override
     public void handle(RefundValidateContext refundValidateContext) {
         var refundCommand = refundValidateContext.getRefundCommand();
-        refundOrderRepository.findByAppidAndOutRefundNo(refundCommand.getAppid(), refundCommand.getOutRefundNo())
+        refundOrderRepository.findByMchidAndOutRefundNo(refundCommand.getAppid(), refundCommand.getOutRefundNo())
                 .ifPresent(e -> {
                     throw new BusinessException("商户退款单号不可重复");
                 });

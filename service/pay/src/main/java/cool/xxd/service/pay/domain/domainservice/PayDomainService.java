@@ -11,7 +11,7 @@ public interface PayDomainService {
 
     void startPay(PayOrder payOrder);
 
-    void updatePayResult(Long payOrderId, PayResult payResult);
+    void updatePayResult(String mchid, Long payOrderId, PayResult payResult);
 
     void fail(PayOrder payOrder);
 

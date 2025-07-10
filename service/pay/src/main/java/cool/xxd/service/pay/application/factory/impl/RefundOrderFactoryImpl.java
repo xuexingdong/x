@@ -27,8 +27,8 @@ public class RefundOrderFactoryImpl implements RefundOrderFactory {
     public RefundOrder create(App app, PayOrder payOrder, RefundCommand refundCommand) {
         var refundOrder = new RefundOrder();
         refundOrder.setId(idGenerator.nextId(RefundOrderDO.class));
-        refundOrder.setAppid(payOrder.getAppid());
         refundOrder.setMchid(payOrder.getMchid());
+        refundOrder.setAppid(payOrder.getAppid());
         refundOrder.setPayOrderNo(payOrder.getPayOrderNo());
         refundOrder.setOutTradeNo(payOrder.getOutTradeNo());
         var refundOrderNo = generateRefundOrderNo(app.getOrderNoPrefix());

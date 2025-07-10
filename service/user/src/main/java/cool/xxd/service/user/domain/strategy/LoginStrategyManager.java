@@ -18,8 +18,7 @@ public class LoginStrategyManager {
         this.strategies = strategyList.stream()
                 .collect(Collectors.toMap(
                         LoginStrategy::getLoginType,
-                        Function.identity()
-                ));
+                        Function.identity()));
     }
 
     public LoginStrategy getStrategy(LoginType loginType) {

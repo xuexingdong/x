@@ -18,6 +18,12 @@ public class MobItemRepositoryImpl implements MobItemRepository {
     private final MobItemMapper mobItemMapper;
 
     @Override
+    public void saveAll(List<MobItem> mobItems) {
+        var mobItemDOList = MobItemConverter.INSTANCE.domain2do(mobItems);
+        mobItemMapper.insert(mobItemDOList);
+    }
+
+    @Override
     public List<MobItem> findByMobCodes(List<String> mobCodes) {
         if (mobCodes.isEmpty()) {
             return List.of();

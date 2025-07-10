@@ -1,9 +1,9 @@
 package cool.xxd.service.pay.domain.strategy;
 
-import cool.xxd.infra.exceptions.BusinessException;
 import cool.xxd.service.pay.domain.aggregate.MerchantPayChannel;
 import cool.xxd.service.pay.domain.enums.PayChannelEnum;
 import cool.xxd.service.pay.domain.enums.PayTypeEnum;
+import cool.xxd.service.pay.domain.exceptions.PayException;
 import cool.xxd.service.pay.domain.repository.MerchantPayChannelRepository;
 import cool.xxd.service.pay.domain.repository.MerchantPayChannelRouterRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class PayChannelStrategyFactory {
     public PayChannelStrategy getStrategy(String payChannelCode) {
         var payChannelStrategy = payChannelStrategyMap.get(PAY_CHANNEL_STRATEGY_PREFIX + payChannelCode);
         if (payChannelStrategy == null) {
-            throw new BusinessException("支付/退款策略为空，支付/退款失败");
+            throw new PayException("支付/退款策略为空，支付/退款失败");
         }
         return payChannelStrategy;
     }
@@ -43,8 +43,8 @@ public class PayChannelStrategyFactory {
             return merchantPayChannel;
         }
         var merchantPayChannelRouter = merchantPayChannelRouterRepository.findByMchidAndPayTypeCode(mchid, payTypeCode)
-                .orElseThrow(() -> new BusinessException("商户无可用支付渠道"));
+                .orElseThrow(() -> new PayException("商户无可用支付渠道"));
         return merchantPayChannelRepository.findByMchidAndPayChannelCode(merchantPayChannelRouter.getMchid(), merchantPayChannelRouter.getPayChannelCode())
-                .orElseThrow(() -> new BusinessException("商户支付渠道不存在"));
+                .orElseThrow(() -> new PayException("商户支付渠道不存在"));
     }
 }

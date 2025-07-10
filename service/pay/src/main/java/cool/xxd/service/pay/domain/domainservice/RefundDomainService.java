@@ -6,7 +6,7 @@ import cool.xxd.service.pay.domain.valueobject.RefundResult;
 public interface RefundDomainService {
     void startRefund(RefundOrder refundOrder);
 
-    void updateRefundResult(Long refundOrderId, RefundResult refundResult);
+    void updateRefundResult(String mchid, Long refundOrderId, RefundResult refundResult);
 
     void fail(RefundOrder refundOrder);
 

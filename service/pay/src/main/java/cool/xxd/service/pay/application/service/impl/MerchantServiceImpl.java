@@ -14,7 +14,6 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     public String addMerchant(AddMerchantCommand addMerchantCommand) {
-        // TODO 并发
         return merchantDomainService.addMerchant(addMerchantCommand);
     }
 }

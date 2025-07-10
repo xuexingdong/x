@@ -26,7 +26,8 @@ public class RefundDomainServiceImpl implements RefundDomainService {
     }
 
     @Override
-    public void updateRefundResult(Long refundOrderId, RefundResult refundResult) {
+    public void updateRefundResult(String mchid, Long refundOrderId, RefundResult refundResult) {
+        refundOrderRepository.findByRefundOrderId(mchid, refundOrderId);
         var refundOrder = refundOrderRepository.getById(refundOrderId);
         if (refundOrder.isFinalRefundStatus()
                 && refundOrder.getRefundStatus() == refundResult.getRefundStatus()) {

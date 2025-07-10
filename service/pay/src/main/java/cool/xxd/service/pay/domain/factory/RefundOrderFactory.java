@@ -6,5 +6,5 @@ import cool.xxd.service.pay.domain.aggregate.RefundOrder;
 import cool.xxd.service.pay.domain.command.RefundCommand;
 
 public interface RefundOrderFactory {
-    RefundOrder create(App app, PayOrder payOrder, RefundCommand refundCommand);
+    RefundOrder create(PayOrder payOrder, RefundCommand refundCommand);
 }

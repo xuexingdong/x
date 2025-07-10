@@ -1,13 +1,14 @@
 package cool.xxd.service.pay.domain.repository;
 
-import cool.xxd.infra.repository.BaseRepository;
+import cool.xxd.infra.ddd.BaseRepository;
 import cool.xxd.service.pay.domain.aggregate.App;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AppRepository extends BaseRepository<App, Long> {
 
-    App getByAppid(String appid);
+    Optional<App> findByAppid(String mchid, String appid);
 
-    List<App> findByAppids(List<String> appids);
+    List<App> findByAppidList(List<String> appIdList);
 }

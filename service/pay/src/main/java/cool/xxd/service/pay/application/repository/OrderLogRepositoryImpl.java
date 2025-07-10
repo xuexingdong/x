@@ -48,7 +48,7 @@ public class OrderLogRepositoryImpl implements OrderLogRepository {
         if (ids.isEmpty()) {
             return List.of();
         }
-        var orderLogDOList = orderLogMapper.selectBatchIds(ids);
+        var orderLogDOList = orderLogMapper.selectByIds(ids);
         return OrderLogConverter.INSTANCE.do2domain(orderLogDOList);
     }
 }
