@@ -7,8 +7,6 @@ import cool.xxd.product.msw.domain.command.AddMobItemCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -28,7 +26,13 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        log.info("Starting data initialization...");
+
+        // 处理Mob数据
+        log.info("Fetching mob data...");
         var mobData = mswDataFetcher.getMobData();
+        log.info("Fetched {} mob records from data source", mobData.size());
+
         var addMobCommands = mobData.entrySet().stream()
                 .map(entry -> {
                     var addMobCommand = new AddMobCommand();
@@ -57,9 +61,16 @@ public class DataInitializer implements ApplicationRunner {
                     return addMobCommand;
                 })
                 .toList();
-        mobService.addMobs(addMobCommands);
 
+        log.info("Processing {} mob commands for database operations", addMobCommands.size());
+        mobService.addMobs(addMobCommands);
+        log.info("Successfully processed all mob data");
+
+        // 处理Item数据
+        log.info("Fetching item data...");
         var itemData = mswDataFetcher.getItemData();
+        log.info("Fetched {} item records from data source", itemData.size());
+
         var addItemCommands = itemData.entrySet().stream()
                 .map(entry -> {
                     var addItemCommand = new AddItemCommand();
@@ -68,9 +79,16 @@ public class DataInitializer implements ApplicationRunner {
                     return addItemCommand;
                 })
                 .toList();
-        itemService.addItems(addItemCommands);
 
+        log.info("Processing {} item commands for database operations", addItemCommands.size());
+        itemService.addItems(addItemCommands);
+        log.info("Successfully processed all item data");
+
+        // 处理Drop数据
+        log.info("Fetching drop data...");
         var dropData = mswDataFetcher.getDropData();
+        log.info("Fetched {} drop records from data source", dropData.size());
+
         var addMobItemCommands = dropData.entrySet().stream()
                 .map(entry -> {
                     var addMobItemCommand = new AddMobItemCommand();
@@ -78,6 +96,11 @@ public class DataInitializer implements ApplicationRunner {
                     addMobItemCommand.setItemName(entry.getValue());
                     return addMobItemCommand;
                 }).toList();
+
+        log.info("Processing {} mob-item commands for database operations", addMobItemCommands.size());
         mobService.addMobItems(addMobItemCommands);
+        log.info("Successfully processed all drop data");
+
+        log.info("Data initialization completed successfully!");
     }
 }
