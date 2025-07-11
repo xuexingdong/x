@@ -6,6 +6,4 @@ import lombok.Data;
 public class AddItemCommand {
     private String code;
     private String name;
-    private Integer itemType;
-    private String itemTypeName;
 }

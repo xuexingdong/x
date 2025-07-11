@@ -26,22 +26,22 @@
         <mybatis-plus.version>3.5.12</mybatis-plus.version>
         <leaf-boot-starter.version>1.0.2-RELEASE</leaf-boot-starter.version>
         <guava.version>33.4.8-jre</guava.version>
-        <redisson-spring-boot-starter.version>3.48.0</redisson-spring-boot-starter.version>
-        <retrofit-spring-boot-starter.version>3.1.6</retrofit-spring-boot-starter.version>
+        <redisson-spring-boot-starter.version>3.50.0</redisson-spring-boot-starter.version>
+        <retrofit-spring-boot-starter.version>3.1.7</retrofit-spring-boot-starter.version>
         <converter-jaxb3.version>2.11.0</converter-jaxb3.version>
         <aliyun-oss-spring-boot-starter.version>1.0.0</aliyun-oss-spring-boot-starter.version>
 
         <postgresql.version>42.7.7</postgresql.version>
         <jjwt.version>0.12.6</jjwt.version>
-        <hutool.version>5.8.38</hutool.version>
-        <commons-lang3.version>3.17.0</commons-lang3.version>
-        <fastjson2.version>2.0.54</fastjson2.version>
-        <bcprov-jdk18on.version>1.80</bcprov-jdk18on.version>
+        <hutool.version>5.8.39</hutool.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
+        <fastjson2.version>2.0.57</fastjson2.version>
+        <bcprov-jdk18on.version>1.81</bcprov-jdk18on.version>
 
-        <lombok.version>1.18.36</lombok.version>
+        <lombok.version>1.18.38</lombok.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
 
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
 
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>

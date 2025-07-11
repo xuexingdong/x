@@ -1,5 +1,6 @@
 package cool.xxd.product.msw.domain.aggregate;
 
+import cool.xxd.product.msw.domain.command.AddMobCommand;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -23,4 +24,16 @@ public class Mob {
     private Integer baseAccuracyRequirement;
     private BigDecimal accuracyLevelPenalty;
 
+    public void update(AddMobCommand addMobCommand) {
+        this.name = addMobCommand.getName();
+        this.level = addMobCommand.getLevel();
+        this.maxHp = addMobCommand.getMaxHp();
+        this.maxMp = addMobCommand.getMaxMp();
+        this.exp = addMobCommand.getExp();
+        this.physicalDefense = addMobCommand.getPhysicalDefense();
+        this.magicalDefense = addMobCommand.getMagicalDefense();
+        this.evasion = addMobCommand.getEvasion();
+        this.baseAccuracyRequirement = addMobCommand.getBaseAccuracyRequirement();
+        this.accuracyLevelPenalty = addMobCommand.getAccuracyLevelPenalty();
+    }
 }

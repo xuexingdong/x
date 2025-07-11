@@ -7,6 +7,6 @@ public class ItemResponse {
     private Long id;
     private String code;
     private String name;
-    private Integer itemType;
+    private String itemType;
     private String itemTypeName;
 }

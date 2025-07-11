@@ -22,9 +22,11 @@ public class ItemFactoryImpl implements ItemFactory {
                     item.setId(id);
                     item.setCode(addItemCommand.getCode());
                     item.setName(addItemCommand.getName());
-                    item.setItemType(addItemCommand.getItemType());
-                    item.setItemTypeName(addItemCommand.getItemTypeName());
+                    var itemType = Item.getItemType(addItemCommand.getCode());
+                    item.setItemTypeCode(itemType.getCode());
+                    item.setItemTypeName(itemType.getName());
                     return item;
                 }).toList();
     }
+
 }

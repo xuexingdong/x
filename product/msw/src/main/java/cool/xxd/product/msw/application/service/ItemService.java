@@ -27,8 +27,46 @@ public class ItemService {
     private final MobItemRepository mobItemRepository;
 
     public void addItems(List<AddItemCommand> addItemCommands) {
-        var items = itemFactory.createItem(addItemCommands);
-        itemRepository.saveAll(items);
+        // 获取所有要处理的item代码
+        var itemCodes = addItemCommands.stream()
+                .map(AddItemCommand::getCode)
+                .distinct()
+                .toList();
+
+        // 查询数据库中已存在的item
+        var existItems = itemRepository.findByCodes(itemCodes);
+
+        // 获取已存在的item代码列表
+        var existItemCodes = existItems.stream()
+                .map(Item::getCode)
+                .distinct()
+                .toList();
+
+        // 根据是否存在分区命令
+        var partitionedCommands = addItemCommands.stream()
+                .collect(Collectors.partitioningBy(command -> existItemCodes.contains(command.getCode())));
+
+        // 处理更新操作 - 将存在的命令转换为Map便于查找
+        var existingCommandMap = partitionedCommands.get(true).stream()
+                .collect(Collectors.toMap(AddItemCommand::getCode, Function.identity()));
+
+        // 更新已存在的item
+        for (Item existItem : existItems) {
+            var addItemCommand = existingCommandMap.get(existItem.getCode());
+            existItem.update(addItemCommand);
+        }
+
+        // 处理新增操作
+        var newCommands = partitionedCommands.get(false);
+        var newItems = itemFactory.createItem(newCommands);
+
+        // 保存新创建的item
+        itemRepository.saveAll(newItems);
+
+        // 更新已存在的item
+        for (Item existItem : existItems) {
+            itemRepository.update(existItem);
+        }
     }
 
     public List<Item> queryItems(ItemQuery itemQuery) {

@@ -22,18 +22,22 @@ CREATE TABLE IF NOT EXISTS msw_mob
 );
 
 CREATE INDEX IF NOT EXISTS idx_code ON msw_mob (code);
+CREATE INDEX IF NOT EXISTS idx_name ON msw_mob (name);
 
 CREATE TABLE IF NOT EXISTS msw_item
 (
-    id          BIGINT PRIMARY KEY,
-    code        VARCHAR(50),
-    name        VARCHAR(255),
-    create_time TIMESTAMP NOT NULL,
-    update_time TIMESTAMP NOT NULL,
-    deleted     BOOLEAN   NOT NULL
+    id             BIGINT PRIMARY KEY,
+    code           VARCHAR(50),
+    name           VARCHAR(255),
+    item_type_code VARCHAR(255),
+    item_type_name VARCHAR(255),
+    create_time    TIMESTAMP NOT NULL,
+    update_time    TIMESTAMP NOT NULL,
+    deleted        BOOLEAN   NOT NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_code ON msw_item (code);
+CREATE INDEX IF NOT EXISTS idx_name ON msw_item (name);
 
 CREATE TABLE IF NOT EXISTS msw_mob_item
 (

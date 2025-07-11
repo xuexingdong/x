@@ -11,4 +11,6 @@ import lombok.EqualsAndHashCode;
 public class ItemDO extends XBaseDO {
     private String code;
     private String name;
+    private String itemTypeCode;
+    private String itemTypeName;
 }

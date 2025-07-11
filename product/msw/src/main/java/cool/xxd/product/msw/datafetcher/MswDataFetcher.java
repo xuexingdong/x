@@ -2,7 +2,7 @@ package cool.xxd.product.msw.datafetcher;
 
 import com.github.lianjiatech.retrofit.spring.boot.core.RetrofitClient;
 import org.springframework.stereotype.Component;
-import retrofit2.http.*;
+import retrofit2.http.GET;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ public interface MswDataFetcher {
     Map<String, List<String>> getMobData();
 
     @GET("item.json")
-    Map<String, List<String>> getItemData();
+    Map<String, String> getItemData();
 
     @GET("drop_data.json")
     Map<String, List<String>> getDropData();
