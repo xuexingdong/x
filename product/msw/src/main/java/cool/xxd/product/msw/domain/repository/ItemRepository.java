@@ -10,6 +10,8 @@ public interface ItemRepository extends BaseRepository<Item, Long> {
 
     void saveAll(List<Item> items);
 
+    void deleteAll();
+
     List<Item> query(ItemQuery itemQuery);
 
     List<Item> findByCodes(List<String> itemCodes);

@@ -8,6 +8,7 @@ import cool.xxd.product.msw.infra.converter.MobConverter;
 import cool.xxd.product.msw.infra.mapper.MobMapper;
 import cool.xxd.product.msw.infra.model.MobDO;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,9 +26,20 @@ public class MobRepositoryImpl implements MobRepository {
     }
 
     @Override
+    public void deleteAll() {
+        mobMapper.delete(null);
+    }
+
+    @Override
+    public void update(Mob mob) {
+        var mobDO = MobConverter.INSTANCE.domain2do(mob);
+        mobMapper.updateById(mobDO);
+    }
+
+    @Override
     public List<Mob> query(MobQuery mobQuery) {
         var queryWrapper = Wrappers.lambdaQuery(MobDO.class)
-                .like(MobDO::getName, mobQuery.getName());
+                .like(StringUtils.isNoneBlank(mobQuery.getName()), MobDO::getName, mobQuery.getName());
         var mobDOList = mobMapper.selectList(queryWrapper);
         return MobConverter.INSTANCE.do2domain(mobDOList);
     }

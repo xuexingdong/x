@@ -9,8 +9,9 @@ public interface MobItemRepository extends BaseRepository<MobItem, Long> {
 
     void saveAll(List<MobItem> mobItems);
 
+    void deleteAll();
+
     List<MobItem> findByMobCodes(List<String> mobCodes);
 
     List<MobItem> findByItemCodes(List<String> itemCodes);
-
 }

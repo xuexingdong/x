@@ -13,7 +13,6 @@ import cool.xxd.product.msw.domain.repository.MobItemRepository;
 import cool.xxd.product.msw.domain.repository.MobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -30,9 +29,9 @@ public class MobService {
     private final MobRepository mobRepository;
     private final MobItemRepository mobItemRepository;
     private final ItemRepository itemRepository;
-    private final TransactionTemplate transactionTemplate;
 
     public void addMobs(List<AddMobCommand> addMobCommands) {
+        mobRepository.deleteAll();
         var mobCodes = addMobCommands.stream().map(AddMobCommand::getCode).distinct().toList();
         var existMobs = mobRepository.findByCodes(mobCodes);
 
@@ -44,7 +43,7 @@ public class MobService {
                 .collect(Collectors.partitioningBy(command -> existMobCodes.contains(command.getCode())));
 
         var existingCommandMap = partitionedCommands.get(true).stream()
-                .collect(Collectors.toMap(AddMobCommand::getCode, Function.identity()));
+                .collect(Collectors.toMap(AddMobCommand::getCode, Function.identity(), (v1, v2) -> v1));
         for (Mob existMob : existMobs) {
             var addMobCommand = existingCommandMap.get(existMob.getCode());
             existMob.update(addMobCommand);
@@ -86,6 +85,7 @@ public class MobService {
     }
 
     public void addMobItems(List<AddMobItemCommand> addMobItemCommands) {
+        mobItemRepository.deleteAll();
         var mobNames = addMobItemCommands.stream()
                 .map(AddMobItemCommand::getMobName)
                 .distinct()

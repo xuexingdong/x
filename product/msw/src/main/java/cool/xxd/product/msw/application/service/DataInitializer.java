@@ -21,8 +21,8 @@ public class DataInitializer implements ApplicationRunner {
     private final MswDataFetcher mswDataFetcher;
 
     private final MobService mobService;
-    private final ItemService itemService;
 
+    private final ItemService itemService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

@@ -27,6 +27,7 @@ public class ItemService {
     private final MobItemRepository mobItemRepository;
 
     public void addItems(List<AddItemCommand> addItemCommands) {
+        itemRepository.deleteAll();
         // 获取所有要处理的item代码
         var itemCodes = addItemCommands.stream()
                 .map(AddItemCommand::getCode)

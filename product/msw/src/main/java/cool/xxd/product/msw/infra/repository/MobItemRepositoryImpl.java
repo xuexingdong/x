@@ -24,6 +24,11 @@ public class MobItemRepositoryImpl implements MobItemRepository {
     }
 
     @Override
+    public void deleteAll() {
+        mobItemMapper.delete(null);
+    }
+
+    @Override
     public List<MobItem> findByMobCodes(List<String> mobCodes) {
         if (mobCodes.isEmpty()) {
             return List.of();

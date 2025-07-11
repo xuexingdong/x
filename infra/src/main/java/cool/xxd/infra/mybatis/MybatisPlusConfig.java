@@ -24,28 +24,10 @@ public class MybatisPlusConfig implements MetaObjectHandler {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         var interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
-        interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
+//        interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(properties.getDbType()));
         return interceptor;
     }
-
-//    @Bean
-//    public GlobalConfig globalConfig() {
-//        var globalConfig = new GlobalConfig();
-//        var dbConfig = new GlobalConfig.DbConfig();
-//
-//        // 设置逻辑删除配置
-//        dbConfig.setLogicDeleteField(properties.getLogicDeleteField());
-//        dbConfig.setLogicDeleteValue(properties.getLogicDeleteValue());
-//        dbConfig.setLogicNotDeleteValue(properties.getLogicNotDeleteValue());
-//
-//        // 设置ID类型
-//        dbConfig.setIdType(properties.getIdType());
-//
-//        globalConfig.setDbConfig(dbConfig);
-//
-//        return globalConfig;
-//    }
 
     @Override
     public void insertFill(MetaObject metaObject) {

@@ -1,7 +1,5 @@
 package cool.xxd.product.msw.adapter.in.mcp;
 
-import cool.xxd.product.msw.application.dto.request.QueryItemRequest;
-import cool.xxd.product.msw.application.dto.request.QueryMobRequest;
 import cool.xxd.product.msw.application.dto.response.ItemQueryResponse;
 import cool.xxd.product.msw.application.dto.response.MobQueryResponse;
 import cool.xxd.product.msw.application.service.ItemService;
@@ -11,6 +9,7 @@ import cool.xxd.product.msw.domain.query.MobQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,10 +23,10 @@ public class MswMcpService {
 
     private final ItemService itemService;
 
-    @Tool(description = "查询怪物")
-    public List<MobQueryResponse> queryMobs(QueryMobRequest queryMobRequest) {
+    @Tool(description = "根据名称模糊查询怪物")
+    public List<MobQueryResponse> queryMobs(@ToolParam(description = "怪物名称，为空查询全部") String mobName) {
         var mobQuery = new MobQuery();
-        mobQuery.setName(queryMobRequest.getName());
+        mobQuery.setName(mobName);
         var mobs = mobService.queryMobs(mobQuery);
         var mobItemsMap = mobService.matchItems(mobs);
         return mobs.stream()
@@ -39,10 +38,10 @@ public class MswMcpService {
                 .toList();
     }
 
-    @Tool(description = "查询物品")
-    public List<ItemQueryResponse> queryItems(QueryItemRequest queryItemRequest) {
+    @Tool(description = "根据名称模糊查询物品")
+    public List<ItemQueryResponse> queryItems(@ToolParam(description = "物品名称，为空查询全部") String itemName) {
         var itemQuery = new ItemQuery();
-        itemQuery.setName(queryItemRequest.getName());
+        itemQuery.setName(itemName);
         var items = itemService.queryItems(itemQuery);
         var itemMobsMap = itemService.matchMobs(items);
         return items.stream()

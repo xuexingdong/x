@@ -10,6 +10,8 @@ public interface MobRepository extends BaseRepository<Mob, Long> {
 
     void saveAll(List<Mob> mobs);
 
+    void deleteAll();
+
     List<Mob> query(MobQuery mobQuery);
 
     List<Mob> findByCodes(List<String> mobCodes);

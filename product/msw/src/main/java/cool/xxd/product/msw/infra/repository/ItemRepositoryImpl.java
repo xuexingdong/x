@@ -8,6 +8,7 @@ import cool.xxd.product.msw.infra.converter.ItemConverter;
 import cool.xxd.product.msw.infra.mapper.ItemMapper;
 import cool.xxd.product.msw.infra.model.ItemDO;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,9 +26,20 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
+    public void deleteAll() {
+        itemMapper.delete(null);
+    }
+
+    @Override
+    public void update(Item item) {
+        var itemDO = ItemConverter.INSTANCE.domain2do(item);
+        itemMapper.updateById(itemDO);
+    }
+
+    @Override
     public List<Item> query(ItemQuery itemQuery) {
         var queryWrapper = Wrappers.lambdaQuery(ItemDO.class)
-                .like(ItemDO::getName, itemQuery.getName());
+                .like(StringUtils.isNoneBlank(itemQuery.getName()), ItemDO::getName, itemQuery.getName());
         var itemDOList = itemMapper.selectList(queryWrapper);
         return ItemConverter.INSTANCE.do2domain(itemDOList);
     }
