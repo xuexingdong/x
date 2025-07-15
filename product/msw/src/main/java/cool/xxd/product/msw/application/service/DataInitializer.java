@@ -1,6 +1,6 @@
 package cool.xxd.product.msw.application.service;
 
-import cool.xxd.product.msw.datafetcher.MswDataFetcher;
+import cool.xxd.product.msw.datafetcher.DropApi;
 import cool.xxd.product.msw.domain.command.AddItemCommand;
 import cool.xxd.product.msw.domain.command.AddMobCommand;
 import cool.xxd.product.msw.domain.command.AddMobItemCommand;
@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationRunner {
 
-    private final MswDataFetcher mswDataFetcher;
+    private final DropApi dropApi;
 
     private final MobService mobService;
 
@@ -30,7 +30,7 @@ public class DataInitializer implements ApplicationRunner {
 
         // 处理Mob数据
         log.info("Fetching mob data...");
-        var mobData = mswDataFetcher.getMobData();
+        var mobData = dropApi.getMobData();
         log.info("Fetched {} mob records from data source", mobData.size());
 
         var addMobCommands = mobData.entrySet().stream()
@@ -68,7 +68,7 @@ public class DataInitializer implements ApplicationRunner {
 
         // 处理Item数据
         log.info("Fetching item data...");
-        var itemData = mswDataFetcher.getItemData();
+        var itemData = dropApi.getItemData();
         log.info("Fetched {} item records from data source", itemData.size());
 
         var addItemCommands = itemData.entrySet().stream()
@@ -86,7 +86,7 @@ public class DataInitializer implements ApplicationRunner {
 
         // 处理Drop数据
         log.info("Fetching drop data...");
-        var dropData = mswDataFetcher.getDropData();
+        var dropData = dropApi.getDropData();
         log.info("Fetched {} drop records from data source", dropData.size());
 
         var addMobItemCommands = dropData.entrySet().stream()

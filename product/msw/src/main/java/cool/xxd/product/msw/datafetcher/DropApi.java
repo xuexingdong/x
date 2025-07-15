@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Component
 @RetrofitClient(baseUrl = "https://a2983456456.github.io/artale-drop/")
-public interface MswDataFetcher {
+public interface DropApi {
 
     @GET("mob.json")
     Map<String, List<String>> getMobData();

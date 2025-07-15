@@ -9,7 +9,12 @@ import org.springframework.context.annotation.Configuration;
 public class ToolConfig {
 
     @Bean
-    public ToolCallbackProvider userTools(MswMcpService mswMcpService) {
-        return MethodToolCallbackProvider.builder().toolObjects(mswMcpService).build();
+    public ToolCallbackProvider dropTools(DropMcpService dropMcpService) {
+        return MethodToolCallbackProvider.builder().toolObjects(dropMcpService).build();
+    }
+
+    @Bean
+    public ToolCallbackProvider marketTools(MarketMcpService marketMcpService) {
+        return MethodToolCallbackProvider.builder().toolObjects(marketMcpService).build();
     }
 }

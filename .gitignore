@@ -3,5 +3,6 @@
 target/
 .secrets
 .env
+*-local.yml
 *-prod.yml
 logs

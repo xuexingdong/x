@@ -1,4 +1,5 @@
-CREATE TABLE t_leaf_alloc
+DROP TABLE t_leaf_alloc;
+CREATE TABLE IF NOT EXISTS t_leaf_alloc
 (
     biz_tag     VARCHAR(128) NOT NULL DEFAULT '',
     max_id      BIGINT       NOT NULL DEFAULT 1,
@@ -7,8 +8,3 @@ CREATE TABLE t_leaf_alloc
     update_time TIMESTAMP    NOT NULL DEFAULT NOW(),
     PRIMARY KEY (biz_tag)
 );
-
-insert into t_leaf_alloc(biz_tag, max_id, step, description, update_time)
-values ('msw_mob', 1, 100, '', NOW()),
-       ('msw_item', 1, 100, '', NOW()),
-       ('msw_mob_item', 1, 100, '', NOW());

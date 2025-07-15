@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MswMcpService {
+public class DropMcpService {
 
     private final MobService mobService;
 

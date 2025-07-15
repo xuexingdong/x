@@ -60,7 +60,7 @@ public class ItemService {
         // 处理新增操作
         var newCommands = partitionedCommands.get(false);
         var newItems = itemFactory.createItem(newCommands);
-
+        checkDuplicateIds(newItems);
         // 保存新创建的item
         itemRepository.saveAll(newItems);
 
@@ -68,6 +68,34 @@ public class ItemService {
         for (Item existItem : existItems) {
             itemRepository.update(existItem);
         }
+    }
+
+    // 在 ItemService 类中添加这个方法
+    private void checkDuplicateIds(List<Item> items) {
+        if (items == null || items.isEmpty()) {
+            return;
+        }
+
+        // 统计每个ID出现的次数
+        var idCounts = items.stream()
+                .collect(Collectors.groupingBy(Item::getId, Collectors.counting()));
+
+        // 找出重复的ID
+        var duplicateIds = idCounts.entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .toList();
+
+        if (!duplicateIds.isEmpty()) {
+            System.err.println("❌ 发现重复的ID: " + duplicateIds);
+            System.err.println("重复ID的Items:");
+            items.stream()
+                    .filter(item -> duplicateIds.contains(item.getId()))
+                    .forEach(item -> System.err.println("  ID: " + item.getId() + ", Code: " + item.getCode() + ", Name: " + item.getName()));
+            throw new RuntimeException("发现重复的ID，无法继续插入数据");
+        }
+
+        System.out.println("✅ 没有发现重复的ID");
     }
 
     public List<Item> queryItems(ItemQuery itemQuery) {
