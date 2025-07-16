@@ -12,11 +12,14 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationRunner {
+
+    private static final Pattern PATTERN = Pattern.compile("([\\d.]+)\\(每少1級 \\+([\\d.]+)\\)");
 
     private final DropApi dropApi;
 
@@ -55,9 +58,13 @@ public class DataInitializer implements ApplicationRunner {
                         addMobCommand.setMagicalDefense(Integer.parseInt(entry.getValue().get(5)));
                     }
                     if (NumberUtils.isParsable(entry.getValue().get(6))) {
-                        addMobCommand.setBaseAccuracyRequirement(Integer.parseInt(entry.getValue().get(6)));
+                        addMobCommand.setEvasion(Integer.parseInt(entry.getValue().get(6)));
                     }
-                    addMobCommand.setAccuracyLevelPenalty(BigDecimal.ZERO);
+                    var matcher = PATTERN.matcher(entry.getValue().get(7));
+                    if (matcher.find()) {
+                        addMobCommand.setBaseAccuracyRequirement(Integer.parseInt(matcher.group(1)));
+                        addMobCommand.setAccuracyLevelPenalty(new BigDecimal(matcher.group(2)));
+                    }
                     return addMobCommand;
                 })
                 .toList();

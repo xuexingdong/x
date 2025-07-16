@@ -17,4 +17,9 @@ public class ToolConfig {
     public ToolCallbackProvider marketTools(MarketMcpService marketMcpService) {
         return MethodToolCallbackProvider.builder().toolObjects(marketMcpService).build();
     }
+
+    @Bean
+    public ToolCallbackProvider accTools(AccService accService) {
+        return MethodToolCallbackProvider.builder().toolObjects(accService).build();
+    }
 }
