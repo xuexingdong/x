@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Currency implements StringEnum {
-    MESO("meso", "楓幣"),
+    MESO("meso", "金币"),
     SNOW("snow", "雪花"),
     ;
 

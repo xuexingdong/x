@@ -14,6 +14,7 @@ import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -35,7 +36,7 @@ public class MarketMcpService {
     @Tool(description = "查询交易，需要从queryMarketItems中查出准确的name后再调用此函数")
     public PageResponse<TransactionResponse> queryTransactions(@ToolParam(description = "物品名称，仅支持精确匹配") String itemName,
                                                                @ToolParam(description = "交易类型") TransactionType transactionType,
-                                                               @ToolParam(description = "是否仅显示有效交易") Boolean isActive,
+                                                               @ToolParam(description = "是否仅显示有效交易，true表示上架中，false表示已成交") Boolean isActive,
                                                                @ToolParam(description = "货币类型，可选", required = false) Currency currency,
                                                                @ToolParam(description = "是否显示Discord用户名", required = false) Boolean showDiscordUsername,
                                                                @ToolParam(description = "时间范围（小时），可选值：24/6/3/1", required = false) Integer timeRange,
@@ -78,9 +79,13 @@ public class MarketMcpService {
 
         var transactionRequest = new TransactionRequest();
         transactionRequest.setItemName(itemName);
-        transactionRequest.setTransactionType(transactionType.getCode());
+        if (Objects.nonNull(transactionType)) {
+            transactionRequest.setTransactionType(transactionType.getCode());
+        }
         transactionRequest.setIsActive(isActive);
-        transactionRequest.setCurrency(currency.getCode());
+        if (Objects.nonNull(currency)) {
+            transactionRequest.setCurrency(currency.getCode());
+        }
         transactionRequest.setShowDiscordUsername(showDiscordUsername);
         transactionRequest.setTimeRange(timeRange);
         transactionRequest.setPage(page);
