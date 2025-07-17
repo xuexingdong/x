@@ -5,9 +5,9 @@ entity PayType as "支付方式" {
     --
     * code
     name
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 note top of PayType
@@ -22,9 +22,9 @@ entity PayChannel as "支付渠道" {
     --
     * code
     name
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 note top of PayChannel
@@ -39,9 +39,9 @@ entity PayChannelPayType as "支付渠道支持的支付方式" {
     --
     * pay_channel_code
     * pay_type_code
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity App as "应用" {
@@ -53,9 +53,9 @@ entity App as "应用" {
     public_key
     private_key
     config
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity Merchant as "商户" {
@@ -64,9 +64,9 @@ entity Merchant as "商户" {
     * appid
     * mchid
     name
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity MerchantPayChannel as "商户支持的支付渠道" {
@@ -75,9 +75,9 @@ entity MerchantPayChannel as "商户支持的支付渠道" {
     * pay_channel_code
     config
     --
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity PayOrder as "支付单" {
@@ -103,9 +103,9 @@ entity PayOrder as "支付单" {
     pay_time
     third_trade_no
     client_pay_invoke_params
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity RefundOrder as "退款单" {
@@ -127,9 +127,9 @@ entity RefundOrder as "退款单" {
     * refund_status
     refund_time
     third_trade_no
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity OrderLog as "日志" {
@@ -141,9 +141,9 @@ entity OrderLog as "日志" {
     refund_order_no
     req
     resp
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 PayType ||--o{ PayChannelPayType

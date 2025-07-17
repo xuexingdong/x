@@ -4,9 +4,9 @@ entity App as "应用" {
     * id
     --
     * appid
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity Account as "账户" {
@@ -19,9 +19,9 @@ entity Account as "账户" {
     * cash_amount : 现金金额
     * bonus_amount : 赠送金额
     * frozen_amount
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity DepositOrder as "充值单" {
@@ -35,9 +35,9 @@ entity DepositOrder as "充值单" {
     * deposit_status
     deposit_time
     * account_id
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity FreezeOrder as "冻结单" {
@@ -48,9 +48,9 @@ entity FreezeOrder as "冻结单" {
     * freeze_status : 冻结中/已解冻/已消费
     * freeze_time
     * account_id
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity ConsumeOrder as "消费单" {
@@ -66,9 +66,9 @@ entity ConsumeOrder as "消费单" {
     * refunded_bonus_amount
     * freeze_order_no
     * account_id
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity RefundOrder as "退款单" {
@@ -81,9 +81,9 @@ entity RefundOrder as "退款单" {
     * refund_time
     refund_order_id
     * account_id
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity WithdrawOrder as "提现单" {
@@ -95,9 +95,9 @@ entity WithdrawOrder as "提现单" {
     * withdraw_time
     deposit_order_id : 有可能为空，比如以后直接转账提现
     * account_id
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 entity AccountTransRecord as "账户交易记录" {
@@ -110,9 +110,9 @@ entity AccountTransRecord as "账户交易记录" {
     * change_amount : 变动金额，有正负
     * balance_amount_after_change : 变动后金额
     * relate_order_id : 关联单id
-    * create_time
-    * update_time
-    * is_deleted
+    * created_at
+    * updated_at
+    * deleted
 }
 
 App ||--o{ Account

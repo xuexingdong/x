@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS t_leaf_alloc
     max_id      BIGINT       NOT NULL DEFAULT 1,
     step        INTEGER      NOT NULL,
     description VARCHAR(256)          DEFAULT NULL,
-    update_time TIMESTAMP    NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP    NOT NULL DEFAULT NOW(),
     PRIMARY KEY (biz_tag)
 );

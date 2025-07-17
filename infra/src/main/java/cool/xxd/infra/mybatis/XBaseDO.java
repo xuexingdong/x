@@ -14,10 +14,10 @@ public abstract class XBaseDO {
     private Long id;
 
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private LocalDateTime createdAt;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedAt;
 
     @TableField(fill = FieldFill.INSERT)
     private Boolean deleted;

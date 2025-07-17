@@ -9,10 +9,10 @@ alwaysApply: true
 ## 数据库设计原则
 1. 无外键约束
 2. 创建表和索引时，都使用CREATE IF NOT EXISTS
-3. 所有表均有以下字段，且存在idx_create_time和idx_update_time索引
+3. 所有表均有以下字段，且存在idx_created_at和idx_updated_at索引
 id              BIGINT PRIMARY KEY,
-create_time     TIMESTAMP    NOT NULL,
-update_time     TIMESTAMP    NOT NULL,
+created_at     TIMESTAMP    NOT NULL,
+updated_at     TIMESTAMP    NOT NULL,
 deleted         BOOLEAN      NOT NULL
 其余字段均可以为空
 4. 日期时间使用TIMESTAMP

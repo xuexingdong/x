@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS msw_mob
     base_accuracy_requirement INTEGER,
     accuracy_level_penalty    DECIMAL(20, 2),
 
-    create_time               TIMESTAMP NOT NULL,
-    update_time               TIMESTAMP NOT NULL,
+    created_at               TIMESTAMP NOT NULL,
+    updated_at               TIMESTAMP NOT NULL,
     deleted                   BOOLEAN   NOT NULL
 );
 
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS msw_item
     name           VARCHAR(255),
     item_type_code VARCHAR(255),
     item_type_name VARCHAR(255),
-    create_time    TIMESTAMP NOT NULL,
-    update_time    TIMESTAMP NOT NULL,
+    created_at    TIMESTAMP NOT NULL,
+    updated_at    TIMESTAMP NOT NULL,
     deleted        BOOLEAN   NOT NULL
 );
 
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS msw_mob_item
     id          BIGINT PRIMARY KEY,
     mob_code    VARCHAR(50),
     item_code   VARCHAR(50),
-    create_time TIMESTAMP NOT NULL,
-    update_time TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
     deleted     BOOLEAN   NOT NULL
 );
 

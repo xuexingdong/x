@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS x_pay_pay_type
     id          BIGINT PRIMARY KEY,
     code        VARCHAR(50),
     name        VARCHAR(255),
-    create_time TIMESTAMP NOT NULL,
-    update_time TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
     deleted     BOOLEAN   NOT NULL
 );
 
@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS x_pay_pay_channel
     code        VARCHAR(50),
     name        VARCHAR(255),
     config      TEXT,
-    create_time TIMESTAMP NOT NULL,
-    update_time TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
     deleted     BOOLEAN   NOT NULL
 );
 
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS x_pay_pay_channel_pay_type
     id               BIGINT PRIMARY KEY,
     pay_channel_code VARCHAR(50),
     pay_type_code    VARCHAR(50),
-    create_time      TIMESTAMP NOT NULL,
-    update_time      TIMESTAMP NOT NULL,
+    created_at      TIMESTAMP NOT NULL,
+    updated_at      TIMESTAMP NOT NULL,
     deleted          BOOLEAN   NOT NULL
 );
 
@@ -41,14 +41,14 @@ CREATE TABLE IF NOT EXISTS x_pay_app
     id          BIGINT PRIMARY KEY,
     appid       VARCHAR(255),
     name        VARCHAR(255),
-    create_time TIMESTAMP NOT NULL,
-    update_time TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
     deleted     BOOLEAN   NOT NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_appid ON x_pay_app (appid);
-CREATE INDEX IF NOT EXISTS idx_create_time ON x_pay_app (create_time);
-CREATE INDEX IF NOT EXISTS idx_update_time ON x_pay_app (update_time);
+CREATE INDEX IF NOT EXISTS idx_created_at ON x_pay_app (created_at);
+CREATE INDEX IF NOT EXISTS idx_updated_at ON x_pay_app (updated_at);
 
 CREATE TABLE IF NOT EXISTS x_pay_merchant
 (
@@ -57,16 +57,16 @@ CREATE TABLE IF NOT EXISTS x_pay_merchant
     mchid       VARCHAR(255),
     name        VARCHAR(255),
     out_mchid   VARCHAR(50),
-    create_time TIMESTAMP NOT NULL,
-    update_time TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
     deleted     BOOLEAN   NOT NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_appid ON x_pay_merchant (appid);
 CREATE INDEX IF NOT EXISTS idx_mchid ON x_pay_merchant (mchid);
 CREATE INDEX IF NOT EXISTS idx_out_mchid ON x_pay_merchant (out_mchid);
-CREATE INDEX IF NOT EXISTS idx_create_time ON x_pay_merchant (create_time);
-CREATE INDEX IF NOT EXISTS idx_update_time ON x_pay_merchant (update_time);
+CREATE INDEX IF NOT EXISTS idx_created_at ON x_pay_merchant (created_at);
+CREATE INDEX IF NOT EXISTS idx_updated_at ON x_pay_merchant (updated_at);
 
 CREATE TABLE IF NOT EXISTS x_pay_merchant_pay_channel
 (
@@ -74,15 +74,15 @@ CREATE TABLE IF NOT EXISTS x_pay_merchant_pay_channel
     mchid            VARCHAR(255),
     pay_channel_code VARCHAR(255),
     config           TEXT,
-    create_time      TIMESTAMP NOT NULL,
-    update_time      TIMESTAMP NOT NULL,
+    created_at      TIMESTAMP NOT NULL,
+    updated_at      TIMESTAMP NOT NULL,
     deleted          BOOLEAN   NOT NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_mchid ON x_pay_merchant_pay_channel (mchid);
 CREATE INDEX IF NOT EXISTS idx_pay_channel_code ON x_pay_merchant_pay_channel (pay_channel_code);
-CREATE INDEX IF NOT EXISTS idx_create_time ON x_user (create_time);
-CREATE INDEX IF NOT EXISTS idx_update_time ON x_user (update_time);
+CREATE INDEX IF NOT EXISTS idx_created_at ON x_user (created_at);
+CREATE INDEX IF NOT EXISTS idx_updated_at ON x_user (updated_at);
 
 CREATE TABLE IF NOT EXISTS x_pay_merchant_pay_channel_router
 (
@@ -90,16 +90,16 @@ CREATE TABLE IF NOT EXISTS x_pay_merchant_pay_channel_router
     mchid            VARCHAR(255) NOT NULL,
     pay_type_code    VARCHAR(255),
     pay_channel_code VARCHAR(255),
-    create_time      TIMESTAMP    NOT NULL,
-    update_time      TIMESTAMP    NOT NULL,
+    created_at      TIMESTAMP    NOT NULL,
+    updated_at      TIMESTAMP    NOT NULL,
     deleted          BOOLEAN      NOT NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_mchid ON x_pay_merchant_pay_channel_router (mchid);
 CREATE INDEX IF NOT EXISTS idx_pay_type_code ON x_pay_merchant_pay_channel_router (pay_type_code);
 CREATE INDEX IF NOT EXISTS idx_pay_channel_code ON x_pay_merchant_pay_channel_router (pay_channel_code);
-CREATE INDEX IF NOT EXISTS idx_create_time ON x_user (create_time);
-CREATE INDEX IF NOT EXISTS idx_update_time ON x_user (update_time);
+CREATE INDEX IF NOT EXISTS idx_created_at ON x_user (created_at);
+CREATE INDEX IF NOT EXISTS idx_updated_at ON x_user (updated_at);
 
 CREATE TABLE IF NOT EXISTS x_pay_pay_order
 (
@@ -129,8 +129,8 @@ CREATE TABLE IF NOT EXISTS x_pay_pay_order
     third_trade_no           VARCHAR(255),
     qr_code                  VARCHAR(1024),
     client_pay_invoke_params TEXT,
-    create_time              TIMESTAMP      NOT NULL,
-    update_time              TIMESTAMP      NOT NULL,
+    created_at              TIMESTAMP      NOT NULL,
+    updated_at              TIMESTAMP      NOT NULL,
     deleted                  Boolean        NOT NULL,
     INDEX                    idx_mchid(mchid),
     INDEX                    idx_appid(appid),
@@ -141,8 +141,8 @@ CREATE TABLE IF NOT EXISTS x_pay_pay_order
     INDEX                    idx_pay_time(pay_time),
     INDEX                    idx_third_trade_no(third_trade_no)
 );
-CREATE INDEX IF NOT EXISTS idx_create_time ON x_user (create_time);
-CREATE INDEX IF NOT EXISTS idx_update_time ON x_user (update_time);
+CREATE INDEX IF NOT EXISTS idx_created_at ON x_user (created_at);
+CREATE INDEX IF NOT EXISTS idx_updated_at ON x_user (updated_at);
 
 CREATE TABLE IF NOT EXISTS x_pay_refund_order
 (
@@ -164,8 +164,8 @@ CREATE TABLE IF NOT EXISTS x_pay_refund_order
     polling_start_time TIMESTAMP,
     refund_time        TIMESTAMP,
     third_trade_no     VARCHAR(255),
-    create_time        TIMESTAMP      NOT NULL,
-    update_time        TIMESTAMP      NOT NULL,
+    created_at        TIMESTAMP      NOT NULL,
+    updated_at        TIMESTAMP      NOT NULL,
     deleted            Boolean        NOT NULL,
     INDEX              idx_mchid(mchid),
     INDEX              idx_appid(appid),
@@ -186,8 +186,8 @@ CREATE TABLE IF NOT EXISTS x_pay_order_log
     refund_order_no VARCHAR(255),
     req             TEXT,
     resp            TEXT,
-    create_time     TIMESTAMP NOT NULL,
-    update_time     TIMESTAMP NOT NULL,
+    created_at     TIMESTAMP NOT NULL,
+    updated_at     TIMESTAMP NOT NULL,
     deleted         Boolean   NOT NULL
 );
 
@@ -201,11 +201,11 @@ CREATE TABLE t_leaf_alloc
     max_id      bigint(20)   NOT NULL DEFAULT '1',
     step        int(11)      NOT NULL,
     description varchar(256)          DEFAULT NULL,
-    update_time timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (biz_tag)
 ) ENGINE = InnoDB;
 
-insert into t_leaf_alloc(biz_tag, max_id, step, description, update_time)
+insert into t_leaf_alloc(biz_tag, max_id, step, description, updated_at)
 values ('x_pay_app', 1, 100, '', NOW()),
        ('x_pay_merchant', 1, 100, '', NOW()),
        ('x_pay_merchant_pay_channel', 1, 100, '', NOW()),
