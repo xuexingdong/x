@@ -16,20 +16,25 @@ public class TransactionResponse {
     private int quantity;
     private String transactionType;
     private String createdAt;
-    
-    // 装备属性
-    private Integer hp;
-    private Integer mp;
-    private Integer physicalAttack;
-    private Integer magicAttack;
-    private Integer strength;
-    private Integer dexterity;
-    private Integer intelligence;
-    private Integer luck;
-    private Integer totalMainStats;
-    private Integer accuracy;
-    private Integer avoidance;
-    private Integer jump;
-    private Integer movement;
-    private Integer scrollCount;
+    private String updatedAt;
+    private AdditionalProps additionalProps;
+
+    @Data
+    private static class AdditionalProps {
+        // 装备属性
+        private Integer hp;
+        private Integer mp;
+        private Integer physicalAttack;
+        private Integer magicAttack;
+        private Integer strength;
+        private Integer dexterity;
+        private Integer intelligence;
+        private Integer luck;
+        private Integer totalMainStats;
+        private Integer accuracy;
+        private Integer avoidance;
+        private Integer jump;
+        private Integer movement;
+        private Integer scrollCount;
+    }
 }
