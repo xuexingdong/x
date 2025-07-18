@@ -5,9 +5,9 @@ CREATE TABLE `t_leaf_alloc`
     `max_id`      bigint(20)   NOT NULL DEFAULT '1',
     `step`        int(11)      NOT NULL,
     `description` varchar(256)          DEFAULT NULL,
-    `updated_at` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `update_time` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`biz_tag`)
 ) ENGINE = InnoDB;
 
-insert into t_leaf_alloc(biz_tag, max_id, step, description, updated_at)
+insert into t_leaf_alloc(biz_tag, max_id, step, description, update_time)
 values ('{biz_tag}', 1, 2000, '', NOW());

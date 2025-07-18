@@ -75,7 +75,7 @@ CREATE TABLE `land_idiom_question_relation`
     INDEX `idx_question_id` (`question_id`)
 );
 
-insert into t_leaf_alloc(biz_tag, max_id, step, description, updated_at)
+insert into t_leaf_alloc(biz_tag, max_id, step, description, update_time)
 values ('land_paper', 1, 2000, '', NOW()),
        ('land_material', 1, 2000, '', NOW()),
        ('land_question', 1, 2000, '', NOW()),
